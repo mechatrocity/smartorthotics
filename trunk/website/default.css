@@ -159,6 +159,7 @@ h1,h2,h3 {
 	padding-top: 12px;
 	float: left;
 	width: 68%;
+	text-align: justify;
 }
 .content .descr {
 	color: #987E57;

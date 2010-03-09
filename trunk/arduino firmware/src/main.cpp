@@ -5,7 +5,7 @@ void setup(void)
 {
 	Serial0.begin(115200);	Serial0.println("Starting up... ");
 
-	// startup SPI bus
+	// startup SPI bus (?)
 
 	// startup ADC system
 
@@ -42,7 +42,6 @@ int main(void)
 
 			ret = CLI(&input[0], len);
 
-
 			// deal with return-status values
 			switch(ret)
 			{
@@ -65,26 +64,27 @@ int main(void)
 
 
 uint8_t CLI(char *input, uint8_t length)
-{
-
-	switch(length)
+{	
+	if(0 == length)
 	{
-	case 0:
-	{
-		Serial0.println("MSG LENGTH 0... wtf?");
-		break;
+		Serial0.println("CLI received 0-length message, error!");
+		return 0xFF;
 	}
-
-	case 1:
+	
+	char header = input[0];
+	
+	switch(header)
 	{
-
-	}
+	case 0x00:
+	case 0x01:
 	default:
 	{
+		Serial0.println("Received default request!");
+		return 0x00;
 		break;
 	}
 	}
-
-	return 0x00;
+	
+	return 0xFF;
 }
 
