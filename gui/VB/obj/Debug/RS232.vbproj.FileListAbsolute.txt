@@ -1,0 +1,14 @@
+C:\Documents and Settings\Administrator\Desktop\VB\bin\RS232.exe
+C:\Documents and Settings\Administrator\Desktop\VB\bin\RS232.pdb
+C:\Documents and Settings\Administrator\Desktop\VB\bin\RS232.xml
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\ResolveAssemblyReference.cache
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\RS232.Form1.resources
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\RS232.vbproj.GenerateResource.Cache
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\RS232.exe
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\RS232.xml
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\RS232.pdb
+C:\Documents and Settings\Administrator\Desktop\VB\bin\Interop.ShockwaveFlashObjects.dll
+C:\Documents and Settings\Administrator\Desktop\VB\bin\AxInterop.ShockwaveFlashObjects.dll
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\Interop.ShockwaveFlashObjects.dll
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\AxInterop.ShockwaveFlashObjects.dll
+C:\Documents and Settings\Administrator\Desktop\VB\obj\Debug\RS232.vbproj.ResolveComReference.cache
