@@ -34,5 +34,6 @@ private:
 
 };
 
+extern motor output1, output2, output3;
 
 #endif /* MOTOR_H_ */
