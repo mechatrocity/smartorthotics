@@ -1,24 +1,3 @@
-/*
-  HardwareSerial.cpp - Hardware serial library for Wiring
-  Copyright (c) 2006 Nicholas Zambetti.  All right reserved.
-
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
-
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-  
-  Modified 23 November 2006 by David A. Mellis
-*/
-
 #include <stdio.h>
 #include <string.h>
 #include <inttypes.h>
@@ -40,12 +19,15 @@ struct ring_buffer {
 };
 
 ring_buffer rx_buffer0 = { { 0 }, 0, 0 };
-
-#if defined(__AVR_ATmega1280__)
 ring_buffer rx_buffer1 = { { 0 }, 0, 0 };
 ring_buffer rx_buffer2 = { { 0 }, 0, 0 };
 ring_buffer rx_buffer3 = { { 0 }, 0, 0 };
-#endif
+
+ring_buffer tx_buffer0 = { { 0 }, 0, 0 };
+ring_buffer tx_buffer1 = { { 0 }, 0, 0 };
+ring_buffer tx_buffer2 = { { 0 }, 0, 0 };
+ring_buffer tx_buffer3 = { { 0 }, 0, 0 };
+
 
 inline void store_char(unsigned char c, ring_buffer *rx_buffer)
 {
@@ -61,7 +43,6 @@ inline void store_char(unsigned char c, ring_buffer *rx_buffer)
   }
 }
 
-#if defined(__AVR_ATmega1280__)
 
 SIGNAL(SIG_USART0_RECV)
 {
@@ -87,23 +68,7 @@ SIGNAL(SIG_USART3_RECV)
   store_char(c, &rx_buffer3);
 }
 
-#else
 
-#if defined(__AVR_ATmega8__)
-SIGNAL(SIG_UART_RECV)
-#else
-SIGNAL(USART_RX_vect)
-#endif
-{
-#if defined(__AVR_ATmega8__)
-  unsigned char c = UDR;
-#else
-  unsigned char c = UDR0;
-#endif
-  store_char(c, &rx_buffer);
-}
-
-#endif
 
 // Constructors ////////////////////////////////////////////////////////////////
 
@@ -211,16 +176,9 @@ void HardwareSerial::write(uint8_t c)
   *_udr = c;
 }
 
-// Preinstantiate Objects //////////////////////////////////////////////////////
-
-#if defined(__AVR_ATmega8__)
-HardwareSerial Serial(&rx_buffer, &UBRRH, &UBRRL, &UCSRA, &UCSRB, &UDR, RXEN, TXEN, RXCIE, UDRE, U2X);
-#else
+/// Preinstantiate Objects //////////////////////////////////////////////////////
 HardwareSerial Serial0(&rx_buffer0, &UBRR0H, &UBRR0L, &UCSR0A, &UCSR0B, &UDR0, RXEN0, TXEN0, RXCIE0, UDRE0, U2X0);
-#endif
-
-#if defined(__AVR_ATmega1280__)
 HardwareSerial Serial1(&rx_buffer1, &UBRR1H, &UBRR1L, &UCSR1A, &UCSR1B, &UDR1, RXEN1, TXEN1, RXCIE1, UDRE1, U2X1);
-HardwareSerial Serial2(&rx_buffer2, &UBRR2H, &UBRR2L, &UCSR2A, &UCSR2B, &UDR2, RXEN2, TXEN2, RXCIE2, UDRE2, U2X2);
-HardwareSerial Serial3(&rx_buffer3, &UBRR3H, &UBRR3L, &UCSR3A, &UCSR3B, &UDR3, RXEN3, TXEN3, RXCIE3, UDRE3, U2X3);
-#endif
+//HardwareSerial Serial2(&rx_buffer2, &UBRR2H, &UBRR2L, &UCSR2A, &UCSR2B, &UDR2, RXEN2, TXEN2, RXCIE2, UDRE2, U2X2);
+//HardwareSerial Serial3(&rx_buffer3, &UBRR3H, &UBRR3L, &UCSR3A, &UCSR3B, &UDR3, RXEN3, TXEN3, RXCIE3, UDRE3, U2X3);
+
