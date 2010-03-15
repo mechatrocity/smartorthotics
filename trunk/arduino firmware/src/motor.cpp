@@ -17,22 +17,20 @@ motor::motor() {
 
 motor::motor(int POS, int NEG)
 {
-	pinMode(POS, OUTPUT);   // set pins as outputs
-	pinMode(NEG, OUTPUT);
-
 	pin_pos = POS;
 	pin_neg = NEG;
-
-	digitalWrite(POS, LOW);
-	digitalWrite(NEG, LOW);
 
 	motor();
 }
 
 
-motor::~motor() {
-	digitalWrite(POS, LOW);
-	digitalWrite(NEG, LOW);
+motor::~motor()
+{
+	pinMode(pin_pos, OUTPUT);   // set pins as outputs
+	pinMode(pin_neg, OUTPUT);
+
+	digitalWrite(pin_pos, LOW);
+	digitalWrite(pin_neg, LOW);
 }
 
 
