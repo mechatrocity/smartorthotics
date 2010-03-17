@@ -28,58 +28,56 @@ Public Class Form1
 	Friend WithEvents chkDTR As System.Windows.Forms.CheckBox
 	Friend WithEvents btnExit As System.Windows.Forms.Button
     Private WithEvents moRS232 As Rs232
-    Friend WithEvents AxShockwaveFlash1 As AxShockwaveFlashObjects.AxShockwaveFlash
-	Private mlTicks As Long
-	Private Delegate Sub CommEventUpdate(ByVal source As Rs232, ByVal mask As Rs232.EventMasks)
+    Private mlTicks As Long
+    Private Delegate Sub CommEventUpdate(ByVal source As Rs232, ByVal mask As Rs232.EventMasks)
 
 #Region " Windows Form Designer generated code "
 
-	Public Sub New()
-		MyBase.New()
+    Public Sub New()
+        MyBase.New()
 
-		'This call is required by the Windows Form Designer.
-		InitializeComponent()
+        'This call is required by the Windows Form Designer.
+        InitializeComponent()
 
-		'Add any initialization after the InitializeComponent() call
+        'Add any initialization after the InitializeComponent() call
 
-	End Sub
+    End Sub
 
-	'Form overrides dispose to clean up the component list.
-	Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
-		If disposing Then
-			If Not (components Is Nothing) Then
-				components.Dispose()
-			End If
-		End If
-		MyBase.Dispose(disposing)
-	End Sub
-	Private components As System.ComponentModel.IContainer
+    'Form overrides dispose to clean up the component list.
+    Protected Overloads Overrides Sub Dispose(ByVal disposing As Boolean)
+        If disposing Then
+            If Not (components Is Nothing) Then
+                components.Dispose()
+            End If
+        End If
+        MyBase.Dispose(disposing)
+    End Sub
+    Private components As System.ComponentModel.IContainer
 
 
-	'Required by the Windows Form Designer
+    'Required by the Windows Form Designer
 
-	'NOTE: The following procedure is required by the Windows Form Designer
-	'It can be modified using the Windows Form Designer.  
-	'Do not modify it using the code editor.
-	Friend WithEvents linkAuthor As System.Windows.Forms.LinkLabel
-	Friend WithEvents lbHex As System.Windows.Forms.ListBox
-	Friend WithEvents Label6 As System.Windows.Forms.Label
-	Friend WithEvents cboStatusLine As System.Windows.Forms.ComboBox
-	Friend WithEvents btnCheck As System.Windows.Forms.Button
-	Friend WithEvents Label7 As System.Windows.Forms.Label
-	Friend WithEvents lbAsync As System.Windows.Forms.ListBox
-	Friend WithEvents lblAsync As System.Windows.Forms.Label
-	Friend WithEvents chkEvents As System.Windows.Forms.CheckBox
-	Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
-	Friend WithEvents chkAddCR As System.Windows.Forms.CheckBox
-	Friend WithEvents Label8 As System.Windows.Forms.Label
-	Friend WithEvents txtPortNum As System.Windows.Forms.TextBox
-	Friend WithEvents btnTest As System.Windows.Forms.Button
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    Friend WithEvents linkAuthor As System.Windows.Forms.LinkLabel
+    Friend WithEvents lbHex As System.Windows.Forms.ListBox
+    Friend WithEvents Label6 As System.Windows.Forms.Label
+    Friend WithEvents cboStatusLine As System.Windows.Forms.ComboBox
+    Friend WithEvents btnCheck As System.Windows.Forms.Button
+    Friend WithEvents Label7 As System.Windows.Forms.Label
+    Friend WithEvents lbAsync As System.Windows.Forms.ListBox
+    Friend WithEvents lblAsync As System.Windows.Forms.Label
+    Friend WithEvents chkEvents As System.Windows.Forms.CheckBox
+    Friend WithEvents LinkLabel1 As System.Windows.Forms.LinkLabel
+    Friend WithEvents chkAddCR As System.Windows.Forms.CheckBox
+    Friend WithEvents Label8 As System.Windows.Forms.Label
+    Friend WithEvents txtPortNum As System.Windows.Forms.TextBox
+    Friend WithEvents btnTest As System.Windows.Forms.Button
     Friend WithEvents btnInBuffer As System.Windows.Forms.Button
     Friend WithEvents lblInBuffer As System.Windows.Forms.Label
     <System.Diagnostics.DebuggerStepThrough()> Private Sub InitializeComponent()
         Me.components = New System.ComponentModel.Container
-        Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.ToolTip1 = New System.Windows.Forms.ToolTip(Me.components)
         Me.chkRTS = New System.Windows.Forms.CheckBox
         Me.btnTx = New System.Windows.Forms.Button
@@ -118,9 +116,7 @@ Public Class Form1
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
         Me.btnInBuffer = New System.Windows.Forms.Button
         Me.lblInBuffer = New System.Windows.Forms.Label
-        Me.AxShockwaveFlash1 = New AxShockwaveFlashObjects.AxShockwaveFlash
         Me.GroupBox1.SuspendLayout()
-        CType(Me.AxShockwaveFlash1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'chkRTS
@@ -230,9 +226,9 @@ Public Class Form1
         Me.lbAsync.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lbAsync.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lbAsync.Location = New System.Drawing.Point(7, 426)
+        Me.lbAsync.Location = New System.Drawing.Point(7, 413)
         Me.lbAsync.Name = "lbAsync"
-        Me.lbAsync.Size = New System.Drawing.Size(765, 54)
+        Me.lbAsync.Size = New System.Drawing.Size(308, 54)
         Me.lbAsync.TabIndex = 25
         Me.ToolTip1.SetToolTip(Me.lbAsync, "Async method sequence")
         '
@@ -381,9 +377,9 @@ Public Class Form1
         '
         Me.btnExit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExit.Location = New System.Drawing.Point(251, 488)
+        Me.btnExit.Location = New System.Drawing.Point(251, 475)
         Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(521, 23)
+        Me.btnExit.Size = New System.Drawing.Size(64, 23)
         Me.btnExit.TabIndex = 14
         Me.btnExit.Text = "&Close"
         '
@@ -391,9 +387,9 @@ Public Class Form1
         '
         Me.linkAuthor.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.linkAuthor.Location = New System.Drawing.Point(7, 496)
+        Me.linkAuthor.Location = New System.Drawing.Point(7, 483)
         Me.linkAuthor.Name = "linkAuthor"
-        Me.linkAuthor.Size = New System.Drawing.Size(541, 12)
+        Me.linkAuthor.Size = New System.Drawing.Size(84, 12)
         Me.linkAuthor.TabIndex = 15
         Me.linkAuthor.TabStop = True
         Me.linkAuthor.Text = "Contact Author"
@@ -444,9 +440,9 @@ Public Class Form1
         '
         Me.lblAsync.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblAsync.Location = New System.Drawing.Point(7, 411)
+        Me.lblAsync.Location = New System.Drawing.Point(7, 398)
         Me.lblAsync.Name = "lblAsync"
-        Me.lblAsync.Size = New System.Drawing.Size(542, 14)
+        Me.lblAsync.Size = New System.Drawing.Size(85, 14)
         Me.lblAsync.TabIndex = 26
         Me.lblAsync.Text = "Async flow"
         '
@@ -454,9 +450,9 @@ Public Class Form1
         '
         Me.LinkLabel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LinkLabel1.Location = New System.Drawing.Point(119, 496)
+        Me.LinkLabel1.Location = New System.Drawing.Point(119, 483)
         Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(559, 12)
+        Me.LinkLabel1.Size = New System.Drawing.Size(102, 12)
         Me.LinkLabel1.TabIndex = 30
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "www.codeworks.it"
@@ -480,20 +476,10 @@ Public Class Form1
         Me.lblInBuffer.Text = "?"
         Me.lblInBuffer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
-        'AxShockwaveFlash1
-        '
-        Me.AxShockwaveFlash1.Enabled = True
-        Me.AxShockwaveFlash1.Location = New System.Drawing.Point(329, 19)
-        Me.AxShockwaveFlash1.Name = "AxShockwaveFlash1"
-        Me.AxShockwaveFlash1.OcxState = CType(resources.GetObject("AxShockwaveFlash1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxShockwaveFlash1.Size = New System.Drawing.Size(438, 375)
-        Me.AxShockwaveFlash1.TabIndex = 34
-        '
         'Form1
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
-        Me.ClientSize = New System.Drawing.Size(779, 514)
-        Me.Controls.Add(Me.AxShockwaveFlash1)
+        Me.ClientSize = New System.Drawing.Size(322, 501)
         Me.Controls.Add(Me.lblInBuffer)
         Me.Controls.Add(Me.btnInBuffer)
         Me.Controls.Add(Me.chkAddCR)
@@ -530,7 +516,6 @@ Public Class Form1
         Me.Text = "VB.Net Serial comunication example"
         Me.GroupBox1.ResumeLayout(False)
         Me.GroupBox1.PerformLayout()
-        CType(Me.AxShockwaveFlash1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -541,273 +526,273 @@ Public Class Form1
 
 
 
-	Private Sub btnOpenCom_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOpenCom.Click
-		moRS232 = New Rs232()
-		Try
-			'// Setup parameters
-			With moRS232
-				.Port = miComPort
-				.BaudRate = Int32.Parse(txtBaudrate.Text)
-            .DataBit = 8
-            .StopBit = Rs232.DataStopBit.StopBit_1
-            .Parity = Rs232.DataParity.Parity_None
-				.Timeout = Int32.Parse(txtTimeout.Text)
-         End With
-         '// Initializes port
-         moRS232.Open()
-         '// Set state of RTS / DTS
-         moRS232.Dtr = (chkDTR.CheckState = CheckState.Checked)
-         moRS232.Rts = (chkRTS.CheckState = CheckState.Checked)
-         If chkEvents.Checked Then moRS232.EnableEvents()
-         chkEvents.Enabled = True
-      Catch Ex As Exception
-			MessageBox.Show(Ex.Message, "Connection Error", MessageBoxButtons.OK)
-		Finally
-			btnCloseCom.Enabled = moRS232.IsOpen
-			btnOpenCom.Enabled = Not moRS232.IsOpen
-			btnTx.Enabled = moRS232.IsOpen
-			btnRx.Enabled = moRS232.IsOpen
-			btnCheck.Enabled = moRS232.IsOpen
-		End Try
-	End Sub
+    Private Sub btnOpenCom_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnOpenCom.Click
+        moRS232 = New Rs232()
+        Try
+            '// Setup parameters
+            With moRS232
+                .Port = miComPort
+                .BaudRate = Int32.Parse(txtBaudrate.Text)
+                .DataBit = 8
+                .StopBit = Rs232.DataStopBit.StopBit_1
+                .Parity = Rs232.DataParity.Parity_None
+                .Timeout = Int32.Parse(txtTimeout.Text)
+            End With
+            '// Initializes port
+            moRS232.Open()
+            '// Set state of RTS / DTS
+            moRS232.Dtr = (chkDTR.CheckState = CheckState.Checked)
+            moRS232.Rts = (chkRTS.CheckState = CheckState.Checked)
+            If chkEvents.Checked Then moRS232.EnableEvents()
+            chkEvents.Enabled = True
+        Catch Ex As Exception
+            MessageBox.Show(Ex.Message, "Connection Error", MessageBoxButtons.OK)
+        Finally
+            btnCloseCom.Enabled = moRS232.IsOpen
+            btnOpenCom.Enabled = Not moRS232.IsOpen
+            btnTx.Enabled = moRS232.IsOpen
+            btnRx.Enabled = moRS232.IsOpen
+            btnCheck.Enabled = moRS232.IsOpen
+        End Try
+    End Sub
 
-	Private Sub btnCloseCom_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCloseCom.Click
-		chkEvents.Enabled = False
-		moRS232.Close()
-		btnCloseCom.Enabled = moRS232.IsOpen
-		btnOpenCom.Enabled = Not moRS232.IsOpen
-		btnTx.Enabled = moRS232.IsOpen
-		btnRx.Enabled = moRS232.IsOpen
-		btnCheck.Enabled = moRS232.IsOpen
-	End Sub
+    Private Sub btnCloseCom_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCloseCom.Click
+        chkEvents.Enabled = False
+        moRS232.Close()
+        btnCloseCom.Enabled = moRS232.IsOpen
+        btnOpenCom.Enabled = Not moRS232.IsOpen
+        btnTx.Enabled = moRS232.IsOpen
+        btnRx.Enabled = moRS232.IsOpen
+        btnCheck.Enabled = moRS232.IsOpen
+    End Sub
 
-	Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTx.Click
-      Dim sTx As String
-      '----------------------
-		'// Clear Tx/Rx Buffers
-		moRS232.PurgeBuffer(Rs232.PurgeBuffers.TxClear Or Rs232.PurgeBuffers.RXClear)
-		sTx = txtTx.Text
-		If chkAddCR.Checked Then sTx += ControlChars.Cr
-		moRS232.Write(sTx)
-		'moRS232.Write(Chr(2) & Chr(2) & Chr(73) & Chr(48) & Chr(121) & Chr(3))
-		'// Clears Rx textbox
-		txtRx.Text = String.Empty
-		txtRx.Refresh()
-		lbHex.Items.Clear()
-		If chkAutorx.Checked Then Button1_Click(Nothing, Nothing)
-	End Sub
+    Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTx.Click
+        Dim sTx As String
+        '----------------------
+        '// Clear Tx/Rx Buffers
+        moRS232.PurgeBuffer(Rs232.PurgeBuffers.TxClear Or Rs232.PurgeBuffers.RXClear)
+        sTx = txtTx.Text
+        If chkAddCR.Checked Then sTx += ControlChars.Cr
+        moRS232.Write(sTx)
+        'moRS232.Write(Chr(2) & Chr(2) & Chr(73) & Chr(48) & Chr(121) & Chr(3))
+        '// Clears Rx textbox
+        txtRx.Text = String.Empty
+        txtRx.Refresh()
+        lbHex.Items.Clear()
+        If chkAutorx.Checked Then Button1_Click(Nothing, Nothing)
+    End Sub
 
-	Private Sub Form1_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
-		If Not moRS232 Is Nothing Then
-			'// Disables Events if active
-			moRS232.DisableEvents()
-			If moRS232.IsOpen Then moRS232.Close()
-		End If
-	End Sub
+    Private Sub Form1_Closing(ByVal sender As Object, ByVal e As System.ComponentModel.CancelEventArgs) Handles MyBase.Closing
+        If Not moRS232 Is Nothing Then
+            '// Disables Events if active
+            moRS232.DisableEvents()
+            If moRS232.IsOpen Then moRS232.Close()
+        End If
+    End Sub
 
-	Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRx.Click
-		Try
-			moRS232.Read(Int32.Parse(txtBytes2Read.Text))
-			txtRx.Text = moRS232.InputStreamString
-			txtRx.ForeColor = Color.Black
-			txtRx.BackColor = Color.White
-			'// Fills listbox with hex values
-			Dim aBytes As Byte() = moRS232.InputStream
-			Dim iPnt As Int32
-			For iPnt = 0 To aBytes.Length - 1
-				lbHex.Items.Add(iPnt.ToString & ControlChars.Tab & String.Format("0x{0}", aBytes(iPnt).ToString("X")))
-			Next
-		Catch Ex As Exception
-			txtRx.BackColor = Color.Red
-			txtRx.ForeColor = Color.White
-			txtRx.Text = "Error occurred " & Ex.Message & "  data fetched: " & moRS232.InputStreamString
-		End Try
-	End Sub
-
-
-
-	Private Sub chkDTR_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkDTR.Click
-		If Not (moRS232 Is Nothing) Then
-			moRS232.Dtr = chkDTR.CheckState = CheckState.Checked
-		End If
-	End Sub
-
-	Private Sub chkRTS_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkRTS.Click
-		If Not (moRS232 Is Nothing) Then
-			moRS232.Rts = chkRTS.CheckState = CheckState.Checked
-		End If
-
-	End Sub
-
-	Private Sub btnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExit.Click
-		Me.Close()
-	End Sub
+    Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRx.Click
+        Try
+            moRS232.Read(Int32.Parse(txtBytes2Read.Text))
+            txtRx.Text = moRS232.InputStreamString
+            txtRx.ForeColor = Color.Black
+            txtRx.BackColor = Color.White
+            '// Fills listbox with hex values
+            Dim aBytes As Byte() = moRS232.InputStream
+            Dim iPnt As Int32
+            For iPnt = 0 To aBytes.Length - 1
+                lbHex.Items.Add(iPnt.ToString & ControlChars.Tab & String.Format("0x{0}", aBytes(iPnt).ToString("X")))
+            Next
+        Catch Ex As Exception
+            txtRx.BackColor = Color.Red
+            txtRx.ForeColor = Color.White
+            txtRx.Text = "Error occurred " & Ex.Message & "  data fetched: " & moRS232.InputStreamString
+        End Try
+    End Sub
 
 
-	Private Sub optCom1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optCom1.CheckedChanged, optCom2.CheckedChanged
-		If (sender Is optCom1) Then
-			miComPort = 1
-		Else
+
+    Private Sub chkDTR_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkDTR.Click
+        If Not (moRS232 Is Nothing) Then
+            moRS232.Dtr = chkDTR.CheckState = CheckState.Checked
+        End If
+    End Sub
+
+    Private Sub chkRTS_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkRTS.Click
+        If Not (moRS232 Is Nothing) Then
+            moRS232.Rts = chkRTS.CheckState = CheckState.Checked
+        End If
+
+    End Sub
+
+    Private Sub btnExit_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnExit.Click
+        Me.Close()
+    End Sub
+
+
+    Private Sub optCom1_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles optCom1.CheckedChanged, optCom2.CheckedChanged
+        If (sender Is optCom1) Then
+            miComPort = 1
+        Else
             miComPort = 4
-		End If
-	End Sub
+        End If
+    End Sub
 
-	Private Sub linkAuthor_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkAuthor.LinkClicked
-		System.Diagnostics.Process.Start("mailto:corrado@mvps.org")
-	End Sub
+    Private Sub linkAuthor_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles linkAuthor.LinkClicked
+        System.Diagnostics.Process.Start("mailto:corrado@mvps.org")
+    End Sub
 
-	Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
-		'===================================================
-		'
-		'	Description	:	Fills form items
-		'	Created			:	28/02/2002 - 10:33:20
-		'
-		'						*Parameters Info*
-		'
-		'	Notes				:
-		'===================================================
-		cboStatusLine.Items.Add("CTS")
-		cboStatusLine.Items.Add("DSR")
-		cboStatusLine.Items.Add("RI")
-		cboStatusLine.Items.Add("CD")
-	End Sub
+    Private Sub Form1_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles MyBase.Load
+        '===================================================
+        '
+        '	Description	:	Fills form items
+        '	Created			:	28/02/2002 - 10:33:20
+        '
+        '						*Parameters Info*
+        '
+        '	Notes				:
+        '===================================================
+        cboStatusLine.Items.Add("CTS")
+        cboStatusLine.Items.Add("DSR")
+        cboStatusLine.Items.Add("RI")
+        cboStatusLine.Items.Add("CD")
+    End Sub
 
-	Private Sub btnCheck_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheck.Click
-		'===================================================
-		'												
-		'	Description	:	Check passed status line
-		'	Created			:	28/02/2002 - 10:35:54
-		'
-		'						*Parameters Info*
-		'
-		'	Notes				:
-		'===================================================
-		If Not moRS232 Is Nothing Then
-			Dim bState As Boolean
-			Select Case cboStatusLine.Text
-				Case "CTS"
-					bState = moRS232.CheckLineStatus(Rs232.ModemStatusBits.ClearToSendOn)
-				Case "DSR"
-					bState = moRS232.CheckLineStatus(Rs232.ModemStatusBits.DataSetReadyOn)
-				Case "RI"
-					bState = moRS232.CheckLineStatus(Rs232.ModemStatusBits.RingIndicatorOn)
-				Case "CD"
-					bState = moRS232.CheckLineStatus(Rs232.ModemStatusBits.CarrierDetect)
-			End Select
-			MessageBox.Show("Selected line is " & IIf(bState, "On", "Off").ToString, "Check line status")
-		End If
-	End Sub
+    Private Sub btnCheck_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheck.Click
+        '===================================================
+        '												
+        '	Description	:	Check passed status line
+        '	Created			:	28/02/2002 - 10:35:54
+        '
+        '						*Parameters Info*
+        '
+        '	Notes				:
+        '===================================================
+        If Not moRS232 Is Nothing Then
+            Dim bState As Boolean
+            Select Case cboStatusLine.Text
+                Case "CTS"
+                    bState = moRS232.CheckLineStatus(Rs232.ModemStatusBits.ClearToSendOn)
+                Case "DSR"
+                    bState = moRS232.CheckLineStatus(Rs232.ModemStatusBits.DataSetReadyOn)
+                Case "RI"
+                    bState = moRS232.CheckLineStatus(Rs232.ModemStatusBits.RingIndicatorOn)
+                Case "CD"
+                    bState = moRS232.CheckLineStatus(Rs232.ModemStatusBits.CarrierDetect)
+            End Select
+            MessageBox.Show("Selected line is " & IIf(bState, "On", "Off").ToString, "Check line status")
+        End If
+    End Sub
 
-	Private Sub btnAsyncTx_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-		'// Clears Rx textbox
-		lbAsync.Items.Clear()
-		txtRx.Text = String.Empty
-		txtRx.Refresh()
-		lbHex.Items.Clear()
-		mlTicks = DateTime.Now.Ticks
-		'moRS232.AsyncWrite(Chr(4) & Chr(3) & Chr(0) & Chr(0) & Chr(0) & Chr(16) & Chr(68) & Chr(83))
-		lbAsync.Items.Add("Tx Started at ticks: " & mlTicks.ToString)
-		If chkAutorx.Checked Then btnAsync_Click(Nothing, Nothing)
-	End Sub
+    Private Sub btnAsyncTx_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        '// Clears Rx textbox
+        lbAsync.Items.Clear()
+        txtRx.Text = String.Empty
+        txtRx.Refresh()
+        lbHex.Items.Clear()
+        mlTicks = DateTime.Now.Ticks
+        'moRS232.AsyncWrite(Chr(4) & Chr(3) & Chr(0) & Chr(0) & Chr(0) & Chr(16) & Chr(68) & Chr(83))
+        lbAsync.Items.Add("Tx Started at ticks: " & mlTicks.ToString)
+        If chkAutorx.Checked Then btnAsync_Click(Nothing, Nothing)
+    End Sub
 
-	Private Sub btnAsync_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
-		Try
-			lbHex.Text = String.Empty
-			lbHex.Refresh()
-			Dim lTicks As Long = DateTime.Now.Ticks
-			lbAsync.Items.Add("Rx Started at ticks: " & lTicks.ToString & " (" & (lTicks - mlTicks).ToString & ")")
-		Catch Ex As Exception
-			txtRx.BackColor = Color.Red
-			txtRx.ForeColor = Color.White
-			txtRx.Text = "Error occurred " & Ex.Message & "  data fetched: " & moRS232.InputStreamString
-		End Try
-	End Sub
+    Private Sub btnAsync_Click(ByVal sender As System.Object, ByVal e As System.EventArgs)
+        Try
+            lbHex.Text = String.Empty
+            lbHex.Refresh()
+            Dim lTicks As Long = DateTime.Now.Ticks
+            lbAsync.Items.Add("Rx Started at ticks: " & lTicks.ToString & " (" & (lTicks - mlTicks).ToString & ")")
+        Catch Ex As Exception
+            txtRx.BackColor = Color.Red
+            txtRx.ForeColor = Color.White
+            txtRx.Text = "Error occurred " & Ex.Message & "  data fetched: " & moRS232.InputStreamString
+        End Try
+    End Sub
 
-	Private Sub moRS232_CommEvent(ByVal source As Rs232, ByVal Mask As Rs232.EventMasks) Handles moRS232.CommEvent
-		'===================================================
-		'												©2003 www.codeworks.it All rights reserved
-		'
-		'	Description	:	Events raised when a comunication event occurs
-		'	Created			:	15/07/03 - 15:13:46
-		'	Author			:	Corrado Cavalli
-		'
-		'						*Parameters Info*
-		'
-		'	Notes				:	
-		'===================================================
-		Debug.Assert(Me.InvokeRequired = False)
+    Private Sub moRS232_CommEvent(ByVal source As Rs232, ByVal Mask As Rs232.EventMasks) Handles moRS232.CommEvent
+        '===================================================
+        '												©2003 www.codeworks.it All rights reserved
+        '
+        '	Description	:	Events raised when a comunication event occurs
+        '	Created			:	15/07/03 - 15:13:46
+        '	Author			:	Corrado Cavalli
+        '
+        '						*Parameters Info*
+        '
+        '	Notes				:	
+        '===================================================
+        Debug.Assert(Me.InvokeRequired = False)
 
-		Dim iPnt As Int32, sBuf As String, Buffer() As Byte
-		Debug.Assert(Me.InvokeRequired = False)
-		lbAsync.Items.Add("Mask: " & Mask.ToString)
-		If (Mask And Rs232.EventMasks.RxChar) > 0 Then
-			lbHex.Items.Add("Received data: " & source.InputStreamString)
-			Buffer = source.InputStream
-			For iPnt = 0 To Buffer.Length - 1
-				lbHex.Items.Add(iPnt.ToString & ControlChars.Tab & String.Format("0x{0}", Buffer(iPnt).ToString("X")))
-			Next
-			lbHex.SelectedIndex = lbHex.Items.Count - 1
-		End If
-		lbAsync.SelectedIndex = lbAsync.Items.Count - 1
-	End Sub
+        Dim iPnt As Int32, sBuf As String, Buffer() As Byte
+        Debug.Assert(Me.InvokeRequired = False)
+        lbAsync.Items.Add("Mask: " & Mask.ToString)
+        If (Mask And Rs232.EventMasks.RxChar) > 0 Then
+            lbHex.Items.Add("Received data: " & source.InputStreamString)
+            Buffer = source.InputStream
+            For iPnt = 0 To Buffer.Length - 1
+                lbHex.Items.Add(iPnt.ToString & ControlChars.Tab & String.Format("0x{0}", Buffer(iPnt).ToString("X")))
+            Next
+            lbHex.SelectedIndex = lbHex.Items.Count - 1
+        End If
+        lbAsync.SelectedIndex = lbAsync.Items.Count - 1
+    End Sub
 
 #Region "UI update routine"
 #End Region
 
-	Private Sub chkEvents_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEvents.CheckedChanged
-		'===================================================
-		'												©2003 www.codeworks.it All rights reserved
-		'
-		'	Description	:	Set state of notification events
-		'	Created			:	16/07/03 - 9:44:05
-		'	Author			:	Corrado Cavalli
-		'
-		'						*Parameters Info*
-		'
-		'	Notes				:
-		'===================================================
-		If Not moRS232 Is Nothing Then
-			If txtBytes2Read.Text.Length = 0 Then
-				moRS232.RxBufferThreshold = 1
-			Else
-				moRS232.RxBufferThreshold = Int32.Parse(txtBytes2Read.Text)
-			End If
-			If chkEvents.Checked Then
-				moRS232.EnableEvents()
-			Else
-				moRS232.DisableEvents()
-			End If
-		End If
-	End Sub
+    Private Sub chkEvents_CheckedChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles chkEvents.CheckedChanged
+        '===================================================
+        '												©2003 www.codeworks.it All rights reserved
+        '
+        '	Description	:	Set state of notification events
+        '	Created			:	16/07/03 - 9:44:05
+        '	Author			:	Corrado Cavalli
+        '
+        '						*Parameters Info*
+        '
+        '	Notes				:
+        '===================================================
+        If Not moRS232 Is Nothing Then
+            If txtBytes2Read.Text.Length = 0 Then
+                moRS232.RxBufferThreshold = 1
+            Else
+                moRS232.RxBufferThreshold = Int32.Parse(txtBytes2Read.Text)
+            End If
+            If chkEvents.Checked Then
+                moRS232.EnableEvents()
+            Else
+                moRS232.DisableEvents()
+            End If
+        End If
+    End Sub
 
-	Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-		System.Diagnostics.Process.Start("http://www.codeworks.it/net/index.htm")
-	End Sub
-
-
-	Private Sub lbAsync_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lbAsync.SelectedIndexChanged
-
-	End Sub
-
-	Private Sub lbAsync_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lbAsync.DoubleClick
-		lbAsync.Items.Clear()
-	End Sub
+    Private Sub LinkLabel1_LinkClicked(ByVal sender As System.Object, ByVal e As System.Windows.Forms.LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        System.Diagnostics.Process.Start("http://www.codeworks.it/net/index.htm")
+    End Sub
 
 
-	Private Sub lbHex_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lbHex.DoubleClick
-		lbHex.Items.Clear()
-	End Sub
+    Private Sub lbAsync_SelectedIndexChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles lbAsync.SelectedIndexChanged
 
-	Private Sub txtRx_BackColorChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRx.BackColorChanged
+    End Sub
 
-	End Sub
-
-	Private Sub txtRx_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRx.DoubleClick
-		txtRx.Text = String.Empty
-	End Sub
+    Private Sub lbAsync_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lbAsync.DoubleClick
+        lbAsync.Items.Clear()
+    End Sub
 
 
-	Private Sub btnTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTest.Click
+    Private Sub lbHex_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles lbHex.DoubleClick
+        lbHex.Items.Clear()
+    End Sub
+
+    Private Sub txtRx_BackColorChanged(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRx.BackColorChanged
+
+    End Sub
+
+    Private Sub txtRx_DoubleClick(ByVal sender As Object, ByVal e As System.EventArgs) Handles txtRx.DoubleClick
+        txtRx.Text = String.Empty
+    End Sub
+
+
+    Private Sub btnTest_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTest.Click
         Try
             If Rs232.IsPortAvailable(Int32.Parse(txtPortNum.Text)) Then
                 MessageBox.Show("Port available", "Port test", MessageBoxButtons.OK, MessageBoxIcon.Information)
@@ -817,7 +802,7 @@ Public Class Form1
         Catch ex As Exception
             MessageBox.Show("Port test failed", "Port test", MessageBoxButtons.OK, MessageBoxIcon.Error)
         End Try
-	End Sub
+    End Sub
 
     Private Sub btnInBuffer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInBuffer.Click
         lblInBuffer.Text = moRS232.InBufferCount.ToString()
