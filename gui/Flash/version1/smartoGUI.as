@@ -2,8 +2,6 @@
 {
 	import flash.display.*;
 	import flash.events.*;
-	import flash.external.ExternalInterface;
-	
 	public class smartoGUI extends MovieClip
     {
 		private var intensityMatrix:Array = new Array(26);
@@ -21,9 +19,6 @@
 			updateIntensities();
 			
 			addEventListener(MouseEvent.MOUSE_MOVE,interactiveColor);
-			btnTest.addEventListener(MouseEvent.CLICK,runMotor);
-			
-			ExternalInterface.addCallback("vbColorFoot",colorFoot);
 		}
 		function interactiveColor(e:MouseEvent=null):void {
 			initializeIntensityMatrix();
@@ -156,18 +151,6 @@
 							break;
 					}
 				}
-			}
-		}
-		function runMotor(e:MouseEvent=null):void {
-			trace("runMotor");
-			ExternalInterface.call("vbRunMotor", "Amena: Allah's creation","Ali: Amo ka husband",20);
-			//flash.external.FlashCall("vbRunMotor","Amo");
-		}
-		function colorFoot(hello:String=null,world:String=null):void {
-			if (btnTest.visible) {
-				btnTest.visible = false;
-			} else {
-				btnTest.visible = true;
 			}
 		}
 	}
