@@ -19,16 +19,14 @@ public:
 
 	void update() //; update PWM for desired velocity
 	{ set_PWM(); }
-	void set_velocity(int);
-	void set_percent (int);
+	void set_speed (int);
 
 
 private:
 	void calc_PWM();
 	void set_PWM();
 
-	int percentage;	// motor-speed output (-100% to +100%)
-
+	int 	percentage;			// motor-speed output (-100% to +100%)
 	uint8_t pin_pos, pin_neg;	//pins for (+/-) motor output
 	uint8_t pwm_pos, pwm_neg;	//PWM values for (+/-) output
 

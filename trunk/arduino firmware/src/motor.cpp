@@ -7,14 +7,6 @@
 #include "motor.h"
 
 
-motor::motor() {
-	// TODO Auto-generated constructor stub
-
-	pwm_pos = 0x00;
-	pwm_neg = 0x00;
-}
-
-
 motor::motor(int POS, int NEG)
 {
 	pin_pos = POS;
@@ -24,7 +16,7 @@ motor::motor(int POS, int NEG)
 }
 
 
-motor::~motor()
+motor::motor()
 {
 	pinMode(pin_pos, OUTPUT);   // set pins as outputs
 	pinMode(pin_neg, OUTPUT);
@@ -33,8 +25,13 @@ motor::~motor()
 	digitalWrite(pin_neg, LOW);
 }
 
+motor::~motor() {
+	digitalWrite(pin_pos, LOW);
+	digitalWrite(pin_neg, LOW);
+}
 
-void motor::set_percent(int out_val)
+
+void motor::set_speed(int out_val)
 {
 	percentage = out_val;
 
