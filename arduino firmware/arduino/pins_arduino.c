@@ -53,16 +53,16 @@
 
 // ATMEL ATMEGA1280 / ARDUINO
 //
-// 0-7 PE0-PE7   works
-// 8-13 PB0-PB5  works
-// 14-21 PA0-PA7 works 
-// 22-29 PH0-PH7 works
-// 30-35 PG5-PG0 works
-// 36-43 PC7-PC0 works
-// 44-51 PJ7-PJ0 works
-// 52-59 PL7-PL0 works
-// 60-67 PD7-PD0 works
-// A0-A7 PF0-PF7
+// 0-7    PE0-PE7 works
+// 8-13   PB0-PB5 works
+// 14-21  PA0-PA7 works 
+// 22-29  PH0-PH7 works
+// 30-35  PG5-PG0 works
+// 36-43  PC7-PC0 works
+// 44-51  PJ7-PJ0 works
+// 52-59  PL7-PL0 works
+// 60-67  PD7-PD0 works
+// A0-A7  PF0-PF7
 // A8-A15 PK0-PK7
 
 #define PA 1
