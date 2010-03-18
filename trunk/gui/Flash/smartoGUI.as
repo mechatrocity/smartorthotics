@@ -17,7 +17,7 @@
 			createDotMatrix();
 			initializeIntensityMatrix();
 			addIntensities(25,10,5);
-			//addIntensities(25,7,7);
+			
 			updateIntensities();
 			
 			addEventListener(MouseEvent.MOUSE_MOVE,interactiveColor);
@@ -27,10 +27,14 @@
 		}
 		function interactiveColor(e:MouseEvent=null):void {
 			initializeIntensityMatrix();
-			addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,10,5);
-			//addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,10,6,5); //
-			//addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,11,5,5);
-			//addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,11,6,5);
+			addIntensities(35*(stage.stageWidth-mouseX)/stage.stageWidth,10,5);
+			addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,2,4); //
+			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,7,8);
+			addIntensities(50*(stage.stageWidth-mouseX)/stage.stageWidth,17,6);
+			addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,4,2);
+			
+			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,23,2);
+			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,22,6);
 			updateIntensities();
 		}
 		function createDotMatrix():void {
