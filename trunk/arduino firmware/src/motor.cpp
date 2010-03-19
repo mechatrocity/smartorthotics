@@ -23,6 +23,8 @@ motor::motor()
 
 	digitalWrite(pin_pos, LOW);
 	digitalWrite(pin_neg, LOW);
+
+	enable = false;
 }
 
 motor::~motor() {
@@ -60,14 +62,21 @@ void motor::calc_PWM(void)
 
 void motor::set_PWM(void)
 {
-	analogWrite(pin_pos, pwm_pos);
-	analogWrite(pin_neg, pwm_neg);
-}
+	if(enable)
+	{
+		analogWrite(pin_pos, pwm_pos);
+		analogWrite(pin_neg, pwm_neg);
+	}
 
+	else
+		//Serial0.println("Motor is disabled!");
+	{
+	}
+}
 
 
 
 /*********** DECLARE OBJECTS ***********/
 motor output1(8, 9);
-motor output2(10, 11);
-motor output3(12, 13);
+motor output2(10,11);
+motor output3(12,13);
