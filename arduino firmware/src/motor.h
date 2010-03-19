@@ -17,8 +17,10 @@ public:
 	motor(int, int);	// startup with pin-assignments
 	~motor();
 
-	void update() //; update PWM for desired velocity
-	{ set_PWM(); }
+	void start()	{ enable = true; }	// NEED TO CHANGE to entirely retract motor arms
+	void stop()		{ enable = false; }	//
+	void update() 	{ set_PWM(); }
+
 	void set_speed (int);
 
 
@@ -26,9 +28,10 @@ private:
 	void calc_PWM();
 	void set_PWM();
 
+	bool    enable;				// is motor control on or off?
 	int 	percentage;			// motor-speed output (-100% to +100%)
-	uint8_t pin_pos, pin_neg;	//pins for (+/-) motor output
-	uint8_t pwm_pos, pwm_neg;	//PWM values for (+/-) output
+	uint8_t pin_pos, pin_neg;	// pins for (+/-) motor output
+	uint8_t pwm_pos, pwm_neg;	// PWM values for (+/-) output
 
 };
 

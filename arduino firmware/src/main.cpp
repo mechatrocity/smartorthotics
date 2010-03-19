@@ -44,7 +44,6 @@ void setup(void)
 	for(i = 0; i < 3; i++)
 		speed[i]  = 0;
 
-
 	Serial0.println("Actuation interface started");
 
 /// startup controller-computer interface
@@ -209,19 +208,31 @@ uint16_t sense_update(uint8_t sensor)
 	case SENSE_SML_10:
 	case SENSE_SML_11:
 	case SENSE_SML_12:
+	{
+		return 0x0102;
+	}
 
 	case SENSE_MED_1:
 	case SENSE_MED_2:
 	case SENSE_MED_3:
 	case SENSE_MED_4:
+	{
+		return 0x0204;
+	}
 
 	case SENSE_LRG_1:
 	case SENSE_LRG_2:
+	{
+		return 0x0408;
+	}
 
 	case SENSE_FLX_1:
 	case SENSE_FLX_2:
 	case SENSE_FLX_3:
 	case SENSE_FLX_4:
+	{
+		return 0x08F0;
+	}
 
 	default:
 	{
