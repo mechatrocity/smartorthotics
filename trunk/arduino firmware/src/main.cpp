@@ -6,23 +6,10 @@ void setup(void)
 	uint8_t i = 0;
 	Serial0.begin(115200);	Serial0.println("Starting up... ");
 
-/// startup SPI bus (?)
-	#define CLK		9
-	#define MISO	10
-	#define MOSI	11
-	#define SS1		12
-	#define SS2		13
-	#define SS3		14
-
-	pinMode(CLK,  OUTPUT);
-	pinMode(SS1,  OUTPUT);
-	pinMode(SS2,  OUTPUT);
-	pinMode(SS3,  OUTPUT);
-	pinMode(MOSI, OUTPUT);
-	pinMode(MISO, INPUT);
-
-
 /// startup ADC system
+	// add slave devices to SPI bus
+	ADC1 = MCP3308.add_slave(34);
+
 	// blank values
 	for(i = 0; i < 12; i++)
 		adc_sml[i].container = 0;
