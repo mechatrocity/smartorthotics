@@ -9,6 +9,7 @@
 #define MOTOR_H_
 
 #include "../arduino/WProgram.h"
+#include "API.h"
 
 
 class motor {

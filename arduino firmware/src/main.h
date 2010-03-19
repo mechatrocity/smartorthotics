@@ -4,6 +4,7 @@
 #include "../arduino/WProgram.h"
 #include "API.h"
 #include "motor.h"
+#include "SPI.h"
 
 
 /***** FIRMWARE FUNCTIONS *****/
@@ -26,5 +27,6 @@ volatile byte16	   adc_flx[4]; 	//
 
 volatile int       speed[3]  = {0};	//Motor PWM (output)
 
+uint8_t ADC1, ADC2, ADC3;
 
 #endif /* MAIN_H_ */
