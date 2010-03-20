@@ -14,24 +14,23 @@ SPI::SPI(uint8_t CLK_PIN, uint8_t MOSI_PIN, uint8_t MISO_PIN)
 	MOSI = MOSI_PIN;
 	MISO = MISO_PIN;
 
-	SPI();
-}
-
-SPI::SPI()
-{
 	// pin directions
 	pinMode(CLK,  OUTPUT);
 	pinMode(MOSI, OUTPUT);
 	pinMode(MISO, INPUT );
 
 	// initial values
-	 digitalWrite(MOSI, LOW);
-	 digitalWrite(CLK,  LOW);
+	digitalWrite(MOSI, LOW);
+	digitalWrite(CLK,  LOW);
 
 	// blank slave device list
-	 int i;
-	 for(i = 0; i < 8; i++)
-		 slave_pins[i] = 0;
+	int i;
+	for(i = 0; i < 8; i++)
+		slave_pins[i] = 0;
+}
+
+SPI::SPI()
+{
 }
 
 
@@ -60,9 +59,9 @@ uint8_t SPI::add_slave(uint8_t pin)
 }
 
 
-uint16_t SPI::send_get(uint8_t slave, uint8_t cmd, uint8_t bytes)
+uint16_t SPI::send_get(uint8_t slave, uint8_t cmd)
 {
-	uint8_t  i;
+	int i;	//MUST be signed
 	uint16_t ADCval = 0x0000;
 
 	//select slave
@@ -76,6 +75,7 @@ uint16_t SPI::send_get(uint8_t slave, uint8_t cmd, uint8_t bytes)
 		digitalWrite(CLK,  LOW);	//
 	}
 
+	/// ignore first two bits
 	digitalWrite(CLK, HIGH);// NULL bit
 	digitalWrite(CLK, LOW);	//
 	digitalWrite(CLK, HIGH);// SIGN bit (only used in differential mode)
@@ -97,5 +97,43 @@ uint16_t SPI::send_get(uint8_t slave, uint8_t cmd, uint8_t bytes)
 }
 
 
-SPI MCP3308(50,43,42);
 
+uint16_t SPI::original(uint8_t slav, uint8_t channel)
+{
+  int adcvalue = 0;
+  byte commandbits = B11000000; //command bits - start, mode, chn (3), dont care (3)
+
+  //allow channel selection
+  commandbits|=((channel-1)<<3);
+
+  digitalWrite(slave_pins[slav], LOW); //Select adc
+  // setup bits to be written
+  for (int i=7; i>=3; i--){
+	digitalWrite(MOSI,commandbits&1<<i);
+	//cycle clock
+	digitalWrite(CLK, HIGH);
+	digitalWrite(CLK, LOW);
+  }
+
+  digitalWrite(CLK,HIGH);    //ignores 2 null bits
+  digitalWrite(CLK,LOW);
+  digitalWrite(CLK,HIGH);
+  digitalWrite(CLK,LOW);
+
+  //read bits from adc
+  for (int i=11; i>=0; i--)
+  {
+	adcvalue+=digitalRead(MISO)<<i;
+	//cycle clock
+	digitalWrite(CLK,HIGH);
+	digitalWrite(CLK,LOW);
+  }
+  digitalWrite(slave_pins[slav], HIGH); //turn off device
+
+  return adcvalue;
+}
+
+
+
+//SPI MCP3308(46,44,42);
+SPI MCP3308(36,34,32);
