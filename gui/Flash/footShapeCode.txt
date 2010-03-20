@@ -1,0 +1,178 @@
+package
+{
+	import flash.display.*;
+	import flash.events.*;
+	import flash.external.ExternalInterface;
+	
+	public class smartoGUI extends MovieClip
+    {
+		private var intensityMatrix:Array = new Array(26);
+		private var dotMatrix:Array = new Array(26);
+		private var dotMatrixContainer:MovieClip = new MovieClip();
+		// ------- Constructor -------
+		public function smartoGUI()
+		{
+			var r:int = 1;
+			var c:int = 2;
+			createDotMatrix();
+			initializeIntensityMatrix();
+			addIntensities(25,10,5);
+			
+			updateIntensities();
+			
+			addEventListener(MouseEvent.MOUSE_MOVE,interactiveColor);
+			btnTest.addEventListener(MouseEvent.CLICK,runMotor);
+			
+			ExternalInterface.addCallback("vbColorFoot",colorFoot);
+		}
+		function interactiveColor(e:MouseEvent=null):void {
+			initializeIntensityMatrix();
+			addIntensities(35*(stage.stageWidth-mouseX)/stage.stageWidth,10,5);
+			addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,2,4); //
+			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,7,8);
+			addIntensities(50*(stage.stageWidth-mouseX)/stage.stageWidth,17,6);
+			addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,4,2);
+			
+			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,23,2);
+			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,22,6);
+			updateIntensities();
+		}
+		function createDotMatrix():void {
+			var r:int = 0;
+			var c:int = 0;
+			for(r=0; r<26; r++) {
+				dotMatrix[r] = new Array();
+				for(c=0; c<10; c++) {
+					dotMatrix[r].push(new dot());
+					dotMatrix[r][c].x = 20*c;
+					dotMatrix[r][c].y = 500-20*r;
+					//dotMatrix[r][c].alpha = 0.3;
+					dotMatrixContainer.addChild(dotMatrix[r][c]);
+				}
+			}
+			addChild(dotMatrixContainer);
+			dotMatrixContainer.x = 560;
+			dotMatrixContainer.y = 50;
+		}
+		function initializeIntensityMatrix():void {
+			var r:int = 0;
+			var c:int = 0;
+			for(r=0; r<26; r++) {
+				intensityMatrix[r] = new Array();
+				for(c=0; c<10; c++) {
+					intensityMatrix[r].push(1);
+				}
+			}
+		}
+		public function addIntensities( sensorValue:int,  sensorRow:int,  sensorCol:int,  radius:int=5):void {
+			
+			//set the actual sensor point
+			intensityMatrix[sensorRow][sensorCol] += sensorValue;
+			
+			//interpolation loop
+			var i:int = 0;
+			var currentIntensity:int;
+			var currentIntensityDiagonal:int;
+			for (i=1; i<radius-2; i++){
+				currentIntensity = int(sensorValue - i*50/radius);
+				currentIntensityDiagonal = int(sensorValue - (i+0.5)*50/radius); 
+				if(currentIntensity >50) {
+					currentIntensity = 50;
+				} else if (currentIntensity <1) {
+					currentIntensity = 1;
+				}
+				if(currentIntensityDiagonal >50) {
+					currentIntensityDiagonal = 50;
+				} else if (currentIntensityDiagonal <1) {
+					currentIntensityDiagonal = 1;
+				}
+				
+				if(sensorCol+i <10) {
+					intensityMatrix[sensorRow][sensorCol+i]   +=  currentIntensity;
+				}
+				if(sensorCol-i >=0) {
+					intensityMatrix[sensorRow][sensorCol-i]   +=  currentIntensity;
+				}
+				if(sensorRow+i <26) {
+					intensityMatrix[sensorRow+i][sensorCol]   +=  currentIntensity;
+				}
+				if(sensorRow-i >=0) {
+					intensityMatrix[sensorRow-i][sensorCol]   +=  currentIntensity;
+				}
+				intensityMatrix[sensorRow+i][sensorCol+i] += currentIntensityDiagonal;
+				intensityMatrix[sensorRow+i][sensorCol-i] += currentIntensityDiagonal;
+				intensityMatrix[sensorRow-i][sensorCol+i] += currentIntensityDiagonal;
+				intensityMatrix[sensorRow-i][sensorCol-i] += currentIntensityDiagonal;
+				
+				//var fillerIntensity:int = 51-int((dotMatrix[sensorRow+2][sensorCol+2].currentFrame+dotMatrix[sensorRow+2][sensorCol].currentFrame)/2);
+				/*var fillerIntensity:int = (currentIntensity+currentIntensityDiagonal)/2;
+				intensityMatrix[sensorRow+1][sensorCol+2] += fillerIntensity;
+				intensityMatrix[sensorRow-1][sensorCol+2] += fillerIntensity;
+				intensityMatrix[sensorRow+2][sensorCol+1] += fillerIntensity;
+				intensityMatrix[sensorRow-2][sensorCol+1] += fillerIntensity;
+				intensityMatrix[sensorRow+2][sensorCol-1] += fillerIntensity;
+				intensityMatrix[sensorRow-2][sensorCol-1] += fillerIntensity;
+				intensityMatrix[sensorRow+1][sensorCol-2] += fillerIntensity;
+				intensityMatrix[sensorRow-1][sensorCol-2] += fillerIntensity;*/
+			}
+		}
+		public function updateIntensities():void {
+			hideNonFootDots();
+			for (var r:int=0;r<26;r++) {
+				for (var c:int=0;c<10;c++) {
+					dotMatrix[r][c].gotoAndStop(51-intensityMatrix[r][c]);
+				}
+			}
+		}
+		function hideNonFootDots():void {
+			for(var c:int=0; c<10; c++) {
+				for(var r:int=0; r<26; r++) {
+					switch(c){
+						case 0:
+							if(r<1 || (r>5 && r<18) || r>20) intensityMatrix[r][c] = 0;
+							break;
+						case 1:
+							if((r>7 && r<17) || (r>21 && r<23)) intensityMatrix[r][c] = 0;
+							break;
+						case 2:
+							if((r>8 && r<17) || (r>21 && r<24)) intensityMatrix[r][c] = 0;
+							break;
+						case 3:
+							if((r>9 && r<17) || r>22)intensityMatrix[r][c] = 0;
+							break;
+						case 4:
+							if((r>12 && r<16) || (r>22 && r<25))intensityMatrix[r][c] = 0;
+							break;
+						case 5:
+							if(r<1 || (r>21 && r<24))intensityMatrix[r][c] = 0;
+							break;
+						case 6:
+							if(r<2 || (r>21 && r<23))intensityMatrix[r][c] = 0;
+							break;
+						case 7:
+							if(r<6 || (r>20 && r<22) || r>23) intensityMatrix[r][c] = 0;
+							break;
+						case 8:
+							if(r<11 || r>21) intensityMatrix[r][c] = 0;
+							break;
+						case 9:
+							if(r<16 || (r>17 && r<20) || r>20) intensityMatrix[r][c] = 0;
+							break;
+					}
+				}
+			}
+		}
+		function runMotor(e:MouseEvent=null):void {
+			trace("runMotor");
+			ExternalInterface.call("vbRunMotor", "Amena: Allah's creation","Ali: Amo ka husband",20);
+			//flash.external.FlashCall("vbRunMotor","Amo");
+		}
+		function colorFoot(hello:String=null,world:String=null):void {
+			if (btnTest.visible) {
+				btnTest.visible = false;
+			} else {
+				btnTest.visible = true;
+			}
+		}
+	}
+}
