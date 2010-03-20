@@ -12,12 +12,6 @@ motor::motor(int POS, int NEG)
 	pin_pos = POS;
 	pin_neg = NEG;
 
-	motor();
-}
-
-
-motor::motor()
-{
 	pinMode(pin_pos, OUTPUT);   // set pins as outputs
 	pinMode(pin_neg, OUTPUT);
 
@@ -25,6 +19,12 @@ motor::motor()
 	digitalWrite(pin_neg, LOW);
 
 	enable = false;
+}
+
+
+motor::motor()
+{
+
 }
 
 motor::~motor() {

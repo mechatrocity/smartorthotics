@@ -13,12 +13,13 @@
 
 class SPI {
 public:
-	SPI(uint8_t, uint8_t, uint8_t);
 	SPI();
+	SPI(uint8_t, uint8_t, uint8_t);
 	~SPI();
 
 	uint8_t  add_slave (uint8_t);	//returns index of "slave_pins" array, AKA Device ID
-	uint16_t send_get  (uint8_t, uint8_t, uint8_t);
+	uint16_t send_get  (uint8_t, uint8_t);
+	uint16_t original  (uint8_t, uint8_t);
 
 private:
 	uint8_t   CLK;
