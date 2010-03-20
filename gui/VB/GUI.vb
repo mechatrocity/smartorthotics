@@ -4,7 +4,7 @@
     End Function
 
     Private Sub AxShockwaveFlash1_FlashCall(ByVal sender As Object, ByVal e As AxShockwaveFlashObjects._IShockwaveFlashEvents_FlashCallEvent) Handles AxShockwaveFlash1.FlashCall
-        MsgBox(e.request.ToString())
+        'MsgBox(e.request.ToString())
         Dim reqXml As New MSXML2.DOMDocument
         reqXml.loadXML(e.request)
 
@@ -28,7 +28,9 @@
         Select Case funcName
             Case "vbRunMotor"
                 'ret = cargarXml(fArgs)
-                MsgBox(fArgs(0) & " | " & fArgs(1) & " | " & fArgs(2), , funcName)
+                MsgBox(fArgs(0) & " | " & fArgs(1), , funcName)
+            Case "vbShowRS232"
+                Form1.Show()
             Case Else
                 MsgBox(funcName)
         End Select
@@ -38,6 +40,32 @@
     End Sub
 
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Button1.Click
-        Me.AxShockwaveFlash1.CallFunction("<invoke name=""vbColorFoot"" returntype=""xml""><arguments><string>hello</string><string>world</string></arguments></invoke>")
+        'Form1.btnOpenCom_Click()
+        Dim XMLizedData As String
+        XMLizedData = "<invoke name=""vbColorFoot"" returntype=""xml"">" _
+                    & "<arguments>" _
+                        & "<array>" _
+                            & "<property id=""0""><number>50</number></property>" _
+                            & "<property id=""1""><number>50</number></property>" _
+                            & "<property id=""2""><number>34</number></property>" _
+                            & "<property id=""3""><number>35</number></property>" _
+                            & "<property id=""4""><number>26</number></property>" _
+                            & "<property id=""5""><number>17</number></property>" _
+                            & "<property id=""6""><number>18</number></property>" _
+                            & "<property id=""7""><number>29</number></property>" _
+                            & "<property id=""8""><number>9</number></property>" _
+                            & "<property id=""9""><number>8</number></property>" _
+                            & "<property id=""10""><number>7</number></property>" _
+                            & "<property id=""11""><number>23</number></property>" _
+                            & "<property id=""12""><number>15</number></property>" _
+                            & "<property id=""13""><number>24</number></property>" _
+                            & "<property id=""14""><number>33</number></property>" _
+                            & "<property id=""15""><number>32</number></property>" _
+                            & "<property id=""16""><number>21</number></property>" _
+                            & "<property id=""17""><number>10</number></property>" _
+                        & "</array>" _
+                        & "</arguments></invoke>" '<string>hello</string><string>world</string>
+        MsgBox(XMLizedData)
+        Me.AxShockwaveFlash1.CallFunction(XMLizedData)
     End Sub
 End Class
