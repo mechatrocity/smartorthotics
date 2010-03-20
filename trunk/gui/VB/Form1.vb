@@ -27,7 +27,7 @@ Public Class Form1
 	Friend WithEvents chkRTS As System.Windows.Forms.CheckBox
 	Friend WithEvents chkDTR As System.Windows.Forms.CheckBox
 	Friend WithEvents btnExit As System.Windows.Forms.Button
-    Private WithEvents moRS232 As Rs232
+    Public WithEvents moRS232 As Rs232
     Private mlTicks As Long
     Private Delegate Sub CommEventUpdate(ByVal source As Rs232, ByVal mask As Rs232.EventMasks)
 

@@ -29,6 +29,8 @@
             Case "vbRunMotor"
                 'ret = cargarXml(fArgs)
                 MsgBox(fArgs(0) & " | " & fArgs(1), , funcName)
+                'next line to be kept under scrutiny: might not work
+                Form1.moRS232.Write("0x2" & fArgs(0)) ' 0x21 is motor 1, 22 is motor 2, 23 is motor 3
             Case "vbShowRS232"
                 Form1.Show()
             Case Else
