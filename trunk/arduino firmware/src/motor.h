@@ -14,12 +14,12 @@
 
 class motor {
 public:
-	motor(void);		// common startup routine
-	motor(int, int);	// startup with pin-assignments
+	motor(void) {}						// common startup routine
+	motor(uint8_t, uint8_t, uint8_t);	// startup with pin-assignments
 	~motor();
 
-	void start()	{ enable = true; }	// NEED TO CHANGE to entirely retract motor arms
-	void stop()		{ enable = false; }	//
+	void start();
+	void stop();
 	void update() 	{ set_PWM(); }
 
 	void set_speed (int);
@@ -31,11 +31,12 @@ private:
 
 	bool    enable;				// is motor control on or off?
 	int 	percentage;			// motor-speed output (-100% to +100%)
+	uint8_t pin_SS;				// enable ("slave select") pin
 	uint8_t pin_pos, pin_neg;	// pins for (+/-) motor output
 	uint8_t pwm_pos, pwm_neg;	// PWM values for (+/-) output
 
 };
 
-extern motor output1, output2, output3;
+extern motor output1, output2, output3, output4;
 
 #endif /* MOTOR_H_ */
