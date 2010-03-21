@@ -9,10 +9,11 @@
 #include "SPI.h"
 
 SPI::SPI(uint8_t CLK_PIN, uint8_t MOSI_PIN, uint8_t MISO_PIN)
+	: CLK(CLK_PIN), MOSI(MOSI_PIN), MISO(MISO_PIN)
 {
-	CLK  = CLK_PIN;
-	MOSI = MOSI_PIN;
-	MISO = MISO_PIN;
+	//CLK  = CLK_PIN;
+	//MOSI = MOSI_PIN;
+	//MISO = MISO_PIN;
 
 	// pin directions
 	pinMode(CLK,  OUTPUT);
@@ -24,16 +25,14 @@ SPI::SPI(uint8_t CLK_PIN, uint8_t MOSI_PIN, uint8_t MISO_PIN)
 	digitalWrite(CLK,  LOW);
 
 	// blank slave device list
-	int i;
-	for(i = 0; i < 8; i++)
+	for(int i = 0; i < 8; i++)
 		slave_pins[i] = 0;
 }
 
 
 uint8_t SPI::add_slave(uint8_t pin)
 {
-	uint8_t i;
-	for(i = 0; i < 8; i++)
+	for(uint8_t i = 0; i < 8; i++)
 	{
 		if(0 == slave_pins[i])	// slot available
 		{
@@ -69,7 +68,7 @@ uint16_t SPI::send_get(uint8_t slave, uint8_t cmd)
 	CYCLE_CLOCK	// SIGN bit (only used in differential mode)
 
 	//read bits from adc
-	for (i = 11; i >= 0; i--)
+	for (i = 12; i >= 0; i--)
 	{
 		ADCval += digitalRead(MISO)<<i;
 
@@ -83,7 +82,7 @@ uint16_t SPI::send_get(uint8_t slave, uint8_t cmd)
 }
 
 
-
+/*
 uint16_t SPI::original(uint8_t slav, uint8_t channel)
 {
   int adcvalue = 0;
@@ -118,7 +117,7 @@ uint16_t SPI::original(uint8_t slav, uint8_t channel)
 
   return adcvalue;
 }
-
+*/
 
 SPI MCP3308_1(36,32,34);	//FLEX & High-Load FSR's
 SPI MCP3308_2(46,42,44);	//0.2'' & 0.5'' FSR's

@@ -11,20 +11,21 @@
 #include "../arduino/WProgram.h"
 #include "API.h"
 
-#define CYCLE_CLOCK	    								  \
-		digitalWrite(CLK,  HIGH); delayMicroseconds(100); \
-		digitalWrite(CLK,  LOW);  delayMicroseconds(100);
+// delayMicroseconds(100) was removed
+#define CYCLE_CLOCK	    		 \
+		digitalWrite(CLK, HIGH); \
+		digitalWrite(CLK, LOW);
 
 
 class SPI {
 public:
-	SPI(uint8_t, uint8_t, uint8_t);
-	SPI()  {}
+	SPI (uint8_t, uint8_t, uint8_t);
+	SPI () {}
 	~SPI() {}
 
 	uint8_t  add_slave (uint8_t);	//returns index of "slave_pins" array, AKA Device ID
 	uint16_t send_get  (uint8_t, uint8_t);
-	uint16_t original  (uint8_t, uint8_t);
+	//uint16_t original  (uint8_t, uint8_t);
 
 private:
 	uint8_t   CLK;

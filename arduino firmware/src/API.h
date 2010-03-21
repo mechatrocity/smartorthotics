@@ -42,8 +42,8 @@
 #define		SENSE_SML_8		0xA8
 #define		SENSE_SML_9		0xA9
 #define		SENSE_SML_10	0xAA
-#define		SENSE_SML_11	0xAB
-#define		SENSE_SML_12	0xAC
+#define		SENSE_SML_11	0xAB	// BROKEN!
+#define		SENSE_SML_12	0xAC	// BROKEN!
 
 #define		SENSE_MED_1		0xB1
 #define		SENSE_MED_2		0xB2
