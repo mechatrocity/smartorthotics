@@ -11,11 +11,16 @@
 #include "../arduino/WProgram.h"
 #include "API.h"
 
+#define CYCLE_CLOCK	    								  \
+		digitalWrite(CLK,  HIGH); delayMicroseconds(100); \
+		digitalWrite(CLK,  LOW);  delayMicroseconds(100);
+
+
 class SPI {
 public:
-	SPI();
 	SPI(uint8_t, uint8_t, uint8_t);
-	~SPI();
+	SPI()  {}
+	~SPI() {}
 
 	uint8_t  add_slave (uint8_t);	//returns index of "slave_pins" array, AKA Device ID
 	uint16_t send_get  (uint8_t, uint8_t);
@@ -28,6 +33,7 @@ private:
 	uint8_t   slave_pins[8];
 };
 
-extern SPI MCP3308;
+extern SPI MCP3308_1;
+extern SPI MCP3308_2;
 
 #endif /* SPI_H_ */

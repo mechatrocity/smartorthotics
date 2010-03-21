@@ -29,16 +29,6 @@ SPI::SPI(uint8_t CLK_PIN, uint8_t MOSI_PIN, uint8_t MISO_PIN)
 		slave_pins[i] = 0;
 }
 
-SPI::SPI()
-{
-}
-
-
-SPI::~SPI()
-{
-	// TODO Auto-generated destructor stub
-}
-
 
 uint8_t SPI::add_slave(uint8_t pin)
 {
@@ -71,23 +61,19 @@ uint16_t SPI::send_get(uint8_t slave, uint8_t cmd)
 	for(i = 7; i >= 3; i--)
 	{
 		digitalWrite(MOSI, cmd&1<<i);
-		digitalWrite(CLK,  HIGH);	// cycle clock
-		digitalWrite(CLK,  LOW);	//
+		CYCLE_CLOCK
 	}
 
 	/// ignore first two bits
-	digitalWrite(CLK, HIGH);// NULL bit
-	digitalWrite(CLK, LOW);	//
-	digitalWrite(CLK, HIGH);// SIGN bit (only used in differential mode)
-	digitalWrite(CLK, LOW);	//
+	CYCLE_CLOCK	// NULL bit
+	CYCLE_CLOCK	// SIGN bit (only used in differential mode)
 
 	//read bits from adc
 	for (i = 11; i >= 0; i--)
 	{
 		ADCval += digitalRead(MISO)<<i;
 
-		digitalWrite(CLK, HIGH);// cycle clock
-		digitalWrite(CLK, LOW); //
+		CYCLE_CLOCK
 	}
 
 	//turn slave 'off'
@@ -134,6 +120,6 @@ uint16_t SPI::original(uint8_t slav, uint8_t channel)
 }
 
 
+SPI MCP3308_1(36,32,34);	//FLEX & High-Load FSR's
+SPI MCP3308_2(46,42,44);	//0.2'' & 0.5'' FSR's
 
-//SPI MCP3308(46,44,42);
-SPI MCP3308(36,34,32);
