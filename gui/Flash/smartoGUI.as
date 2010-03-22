@@ -19,6 +19,7 @@
 		private var dotMatrix:Array = new Array(26);
 		private var dotMatrixContainer:MovieClip = new MovieClip();
 		private var cylinderMatrix:Array = new Array(26);
+		//private var cylinderColor:Array = new Array();
 		
 		private var SENSOR_X:Array = new Array();
 		private var SENSOR_Y:Array = new Array();
@@ -27,6 +28,7 @@
 		private var mc_material:MovieMaterial;
 		private var clr_material:ColorMaterial;
 		private var foot3d:Plane;
+		private var footMotor:Plane;
 		
 		function loop(e:Event):void{
 			view.singleRender();
@@ -57,14 +59,23 @@
 			
 			m1up.addEventListener(MouseEvent.CLICK,runSlider);
 			m1down.addEventListener(MouseEvent.CLICK,runSlider);
-			m2up.addEventListener(MouseEvent.CLICK,runSlider);
-			m2down.addEventListener(MouseEvent.CLICK,runSlider);
-			m3up.addEventListener(MouseEvent.CLICK,runSlider);
-			m3down.addEventListener(MouseEvent.CLICK,runSlider);
+			m2up.addEventListener(MouseEvent.CLICK,runMotor2);
+			m2down.addEventListener(MouseEvent.CLICK,runMotor2);
+			m3up.addEventListener(MouseEvent.CLICK,runMotor2);
+			m3down.addEventListener(MouseEvent.CLICK,runMotor2);
 			
 			s1.addEventListener(MouseEvent.MOUSE_DOWN,mouseDownSlider);
 			s1.addEventListener(Event.CHANGE,runMotor);
 			s1.addEventListener(SliderEvent.THUMB_DRAG,updateText);
+			
+			ledADC.addEventListener(MouseEvent.CLICK,ADCHandler);
+			ledMotors.addEventListener(MouseEvent.CLICK,MotorsHandler);
+			lblADC.addEventListener(MouseEvent.CLICK,ADCHandler);
+			lblMotors.addEventListener(MouseEvent.CLICK,MotorsHandler);
+			ledADC.buttonMode = true;
+			ledMotors.buttonMode = true;
+			//lblADC.buttonMode = true;
+			//lblMotors.buttonMode = true;
 			
 			ExternalInterface.addCallback("vbColorFoot",colorFoot);
 			
@@ -77,22 +88,55 @@
 			mc_material = new MovieMaterial(dotMatrixContainer);
 			mc_material.animated = true;
 			
-			foot3d = new Plane(mc_material,500,1300,10,10);
+			foot3d = new Plane(new ColorMaterial(0x000000, 0),500,1300,4,4);
 			foot3d.rotationX = 400;
 			foot3d.rotationY = 300;
 			foot3d.rotationZ = 45;
+			foot3d.scale = 1.3;
 			
-			view.scene.addChild(foot3d);
+			footMotor = new Plane(mc_material,500,1300,4,4);
+			footMotor.rotationX = 380;
+			footMotor.rotationY = 300;
+			footMotor.rotationZ = 45;
+			footMotor.z = -300;
+			footMotor.y = -300;
+			footMotor.x = -300;
+			footMotor.scale = 0.75;
+			view.scene.addChild(footMotor);
+			//view.scene.addChild(foot3d);
 			addEventListener(Event.ENTER_FRAME, loop);
-			addEventListener(MouseEvent.MOUSE_MOVE,moveFoot);
+			//addEventListener(MouseEvent.MOUSE_MOVE,moveFoot);
 			create3dFoot();
 			
 			//call  coloring function
 			colorFoot([50,50,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
 		}
+		function ADCHandler(e:MouseEvent):void {
+			if(ledADC.currentFrame==1) {
+				ledADC.nextFrame();
+				lblADC.text = "ADC ON";
+				ExternalInterface.call("vbStartADC");
+			} else {
+				ledADC.prevFrame();
+				lblADC.text = "ADC OFF";
+				ExternalInterface.call("vbStopADC");
+			}
+		}
+		function MotorsHandler(e:MouseEvent):void {
+			if(ledMotors.currentFrame==1) {
+				ledMotors.nextFrame();
+				lblMotors.text = "Motors ON";
+				ExternalInterface.call("vbStartMotors");
+			} else {
+				ledMotors.prevFrame();
+				lblMotors.text = "Motors OFF";
+				ExternalInterface.call("vbStopMotors");
+			}
+		}
 		function moveFoot(e:MouseEvent=null):void {
-			if(mouseX > 500 && mouseX < 800 && mouseY > 300 && mouseY < 700) {
-				foot3d.rotationZ = mouseX;
+			if(mouseX > 400 && mouseX < 800 && mouseY > 230 && mouseY < 430) {
+				foot3d.rotationX += mouseX;
+				foot3d.rotationY += mouseY;
 			}
 			//foot3d.rotationY = mouseY;
 			trace(foot3d.rotationX + " X, Z " + foot3d.rotationZ);
@@ -137,6 +181,27 @@
 			SENSOR_Y[16] = 9;
 			SENSOR_X[17] = 0;
 			SENSOR_Y[17] = 9;
+			//f l e x   s e n s o r s  right
+			SENSOR_X[18] = 
+			SENSOR_Y[18] =
+			SENSOR_X[19] = 
+			SENSOR_Y[19] =
+			SENSOR_X[20] = 
+			SENSOR_Y[20] =
+			//f l e x   s e n s o r s  left
+			SENSOR_X[21] = 
+			SENSOR_Y[21] =
+			SENSOR_X[22] = 
+			SENSOR_Y[22] =
+			SENSOR_X[23] = 
+			SENSOR_Y[23] =
+			//f l e x   s e n s o r s  front
+			SENSOR_X[24] = 
+			SENSOR_Y[24] =
+			SENSOR_X[25] = 
+			SENSOR_Y[25] =
+			SENSOR_X[26] = 
+			SENSOR_Y[26] =
 		}
 		function interactiveColor(e:MouseEvent=null):void {
 			initializeIntensityMatrix();
@@ -174,7 +239,7 @@
 				cylinderMatrix[r] = new Array();
 				for(var c:int = 0; c<10; c++) {
 					trace("r_c: " + r+ "_" +c);
-					cylinderMatrix[r].push(new Cylinder(clr_material,20,50));
+					cylinderMatrix[r].push(new Cylinder(clr_material,20,50,4,4));
 					cylinderMatrix[r][c].rotationX = 90;
 					cylinderMatrix[r][c].x = c*40;
 					cylinderMatrix[r][c].y = r*40;
@@ -253,8 +318,8 @@
 			for (var r:int=0;r<26;r++) {
 				for (var c:int=0;c<10;c++) {
 					dotMatrix[r][c].gotoAndStop(51-intensityMatrix[r][c]);
-					cylinderMatrix[r][c].scaleY = 10*intensityMatrix[r][c]/50;
-					cylinderMatrix[r][c].z = -10*intensityMatrix[r][c]/2;
+					cylinderMatrix[r][c].scaleY = 5*intensityMatrix[r][c]/50 +0.5;
+					cylinderMatrix[r][c].z = -(5*intensityMatrix[r][c]+0.5)/2;
 				}
 			}
 		}
@@ -352,6 +417,18 @@
 			ExternalInterface.call("vbRunMotor", 1, s1.value-100);
 			trace(s1.value-100 + " sent to VB");
 			Tweener.addTween(s1,{value:100,time:1});
+		}
+		function runMotor2(e:MouseEvent=null):void {
+			if(e.target.name.substr(2) == "up") {
+				ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), 20);
+				trace(e.target.name.charAt(1) + " | " + 20); 
+			} else {
+				ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), -20);
+				trace(e.target.name.charAt(1) + " | -" + 20); 
+			}
+			//ExternalInterface.call("vbRunMotor", 2, s1.value-100);
+			//trace(s1.value-100 + " sent to VB");
+			//Tweener.addTween(s1,{value:100,time:1});
 		}
 		function showRS232(e:MouseEvent=null):void {
 			ExternalInterface.call("vbShowRS232"); 
