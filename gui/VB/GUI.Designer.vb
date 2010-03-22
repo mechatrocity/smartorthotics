@@ -34,7 +34,7 @@ Partial Class GUI
         Me.AxShockwaveFlash1.Location = New System.Drawing.Point(0, 0)
         Me.AxShockwaveFlash1.Name = "AxShockwaveFlash1"
         Me.AxShockwaveFlash1.OcxState = CType(resources.GetObject("AxShockwaveFlash1.OcxState"), System.Windows.Forms.AxHost.State)
-        Me.AxShockwaveFlash1.Size = New System.Drawing.Size(800, 600)
+        Me.AxShockwaveFlash1.Size = New System.Drawing.Size(1280, 800)
         Me.AxShockwaveFlash1.TabIndex = 0
         '
         'Button1

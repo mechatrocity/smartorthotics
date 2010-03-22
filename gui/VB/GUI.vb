@@ -28,33 +28,49 @@
         Select Case funcName
             Case "vbRunMotor"
                 'ret = cargarXml(fArgs)
-                MsgBox(fArgs(0) & " | " & fArgs(1), , funcName)
+                'MsgBox(fArgs(0) & " | " & fArgs(1), , funcName)
                 If CInt(fArgs(0)) = 1 Then               'motor 1
                     If CInt(fArgs(1)) > 0 Then
-                        Form1.txtTx.Text = 22 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'up
+                        'MsgBox(CInt(&H22))
+                        'MsgBox(127 * (Math.Abs(CInt(fArgs(1))) / 100))
+                        Form1.txtTx.Text = Chr(&H22) & Chr(CInt(127 * (Math.Abs(CInt(fArgs(1))) / 100))) 'up
                     Else
-                        Form1.txtTx.Text = 23 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'down
+                        Form1.txtTx.Text = Chr(&H23) & Chr(CInt(127 * (Math.Abs(CInt(fArgs(1))) / 100))) 'down
                     End If
                 ElseIf CInt(fArgs(0)) = 2 Then           'motor 2
                     If CInt(fArgs(1)) > 0 Then
-                        Form1.txtTx.Text = 24 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'up
+                        Form1.txtTx.Text = Chr(&H24) & Chr(CInt(127 * (Math.Abs(CInt(fArgs(1))) / 100))) 'up
                     Else
-                        Form1.txtTx.Text = 25 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'down
+                        Form1.txtTx.Text = Chr(&H25) & Chr(CInt(127 * (Math.Abs(CInt(fArgs(1))) / 100))) 'down
                     End If
-                ElseIf CInt(fArgs(0)) = 2 Then
+                ElseIf CInt(fArgs(0)) = 3 Then
                     If CInt(fArgs(1)) > 0 Then
-                        Form1.txtTx.Text = 26 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'up
+                        Form1.txtTx.Text = Chr(&H26) & Chr(CInt(127 * (Math.Abs(CInt(fArgs(1))) / 100))) 'up
                     Else
-                        Form1.txtTx.Text = 27 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'down
+                        Form1.txtTx.Text = Chr(&H27) & Chr(CInt(127 * (Math.Abs(CInt(fArgs(1))) / 100))) 'down
                     End If
                 End If
-                    Form1.btnTx.PerformClick()
-                    'next line to be kept under scrutiny: might not work
-                    'Form1.moRS232.Write("0x2" & fArgs(0)) ' 0x21 is motor 1, 22 is motor 2, 23 is motor 3
+                Form1.btnTx.PerformClick()
+                'Form1.txtTx.Text = Chr(CInt(127 * (Math.Abs(CInt(fArgs(1))) / 100)))
+                'Form1.btnTx.PerformClick()
+                'next line to be kept under scrutiny: might not work
+                'Form1.moRS232.Write("0x2" & fArgs(0)) ' 0x21 is motor 1, 22 is motor 2, 23 is motor 3
             Case "vbShowRS232"
-                    Form1.Show()
+                Form1.Show()
+            Case "vbStartADC"
+                Form1.txtTx.Text = Chr(&H1F) '.ToString()
+                Form1.btnTx.PerformClick()
+            Case "vbStartMotors"
+                Form1.txtTx.Text = Chr(&H2F) '.ToString()
+                Form1.btnTx.PerformClick()
+            Case "vbStopADC"
+                Form1.txtTx.Text = Chr(&H10) '.ToString()
+                Form1.btnTx.PerformClick()
+            Case "vbStopMotors"
+                Form1.txtTx.Text = Chr(&H20) '.ToString()
+                Form1.btnTx.PerformClick()
             Case Else
-                    MsgBox(funcName)
+                MsgBox(funcName)
         End Select
 
         'MsgBox(funcName & ": " & elem.ToString())
