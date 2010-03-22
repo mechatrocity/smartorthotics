@@ -19,7 +19,7 @@
 		private var dotMatrix:Array = new Array(26);
 		private var dotMatrixContainer:MovieClip = new MovieClip();
 		private var cylinderMatrix:Array = new Array(26);
-		//private var cylinderColor:Array = new Array();
+		private var cylinderColor:Array = new Array();
 		
 		private var SENSOR_X:Array = new Array();
 		private var SENSOR_Y:Array = new Array();
@@ -57,8 +57,8 @@
 			//addEventListener(MouseEvent.MOUSE_MOVE,interactiveColor);
 			btnTest.addEventListener(MouseEvent.CLICK,showRS232);
 			
-			m1up.addEventListener(MouseEvent.CLICK,runSlider);
-			m1down.addEventListener(MouseEvent.CLICK,runSlider);
+			m1up.addEventListener(MouseEvent.CLICK,runMotor2);
+			m1down.addEventListener(MouseEvent.CLICK,runMotor2);
 			m2up.addEventListener(MouseEvent.CLICK,runMotor2);
 			m2down.addEventListener(MouseEvent.CLICK,runMotor2);
 			m3up.addEventListener(MouseEvent.CLICK,runMotor2);
@@ -88,22 +88,48 @@
 			mc_material = new MovieMaterial(dotMatrixContainer);
 			mc_material.animated = true;
 			
+			for(var i:int=0; i<10; i++) {
+				cylinderColor.push(new ColorMaterial(0x0000FF,100,false));
+			}
+			for(var i:int=0; i<10; i++) {
+				cylinderColor.push(new ColorMaterial(0x00FFFF,100,false));
+			}
+			for(var i:int=0; i<10; i++) {
+				cylinderColor.push(new ColorMaterial(0x00FF00,100,false));
+			}
+			for(var i:int=0; i<10; i++) {
+				cylinderColor.push(new ColorMaterial(0xFFFF00,100,false));
+			}
+			for(var i:int=0; i<10; i++) {
+				cylinderColor.push(new ColorMaterial(0xFF0000,100,false));
+			}
 			foot3d = new Plane(new ColorMaterial(0x000000, 0),500,1300,4,4);
 			foot3d.rotationX = 400;
 			foot3d.rotationY = 300;
 			foot3d.rotationZ = 45;
 			foot3d.scale = 1.3;
+			foot3d.y = 100;
 			
 			footMotor = new Plane(mc_material,500,1300,4,4);
 			footMotor.rotationX = 380;
 			footMotor.rotationY = 300;
 			footMotor.rotationZ = 60;
 			footMotor.z = -300;
-			footMotor.y = -450;
+			footMotor.y = -350;
 			footMotor.x = -300;
-			footMotor.scale = 0.5;
-			//view.scene.addChild(footMotor);
-			//view.scene.addChild(foot3d);
+			footMotor.scale = 0.6;
+			view.scene.addChild(footMotor);
+			view.scene.addChild(foot3d);
+			addChild(m1lbl);
+			addChild(m2lbl);
+			addChild(m3lbl);
+			addChild(m1up);
+			addChild(m2up);
+			addChild(m3up);
+			addChild(m1down);
+			addChild(m2down);
+			addChild(m3down);
+			
 			addEventListener(Event.ENTER_FRAME, loop);
 			//addEventListener(MouseEvent.MOUSE_MOVE,moveFoot);
 			create3dFoot();
@@ -321,6 +347,7 @@
 					dotMatrix[r][c].gotoAndStop(51-intensityMatrix[r][c]);
 					cylinderMatrix[r][c].scaleY = 5*intensityMatrix[r][c]/50 +0.5;
 					cylinderMatrix[r][c].z = -(5*intensityMatrix[r][c]+0.5)/2;
+					cylinderMatrix[r][c].material = cylinderColor[intensityMatrix[r][c]];
 				}
 			}
 		}
@@ -421,11 +448,11 @@
 		}
 		function runMotor2(e:MouseEvent=null):void {
 			if(e.target.name.substr(2) == "up") {
-				ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), 20);
-				trace(e.target.name.charAt(1) + " | " + 20); 
+				ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), 60);
+				trace(e.target.name.charAt(1) + " | " + 60); 
 			} else {
-				ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), -20);
-				trace(e.target.name.charAt(1) + " | -" + 20); 
+				ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), -60);
+				trace(e.target.name.charAt(1) + " | -" + 60); 
 			}
 			//ExternalInterface.call("vbRunMotor", 2, s1.value-100);
 			//trace(s1.value-100 + " sent to VB");
