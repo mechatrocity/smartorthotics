@@ -83,8 +83,8 @@
         XMLizedData = "<invoke name=""vbColorFoot"" returntype=""xml"">" _
                     & "<arguments>" _
                         & "<array>" _
-                            & "<property id=""0""><number>50</number></property>" _
-                            & "<property id=""1""><number>50</number></property>" _
+                            & "<property id=""0""><number>30</number></property>" _
+                            & "<property id=""1""><number>30</number></property>" _
                             & "<property id=""2""><number>34</number></property>" _
                             & "<property id=""3""><number>35</number></property>" _
                             & "<property id=""4""><number>26</number></property>" _
