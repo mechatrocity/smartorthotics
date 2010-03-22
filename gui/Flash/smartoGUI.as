@@ -78,20 +78,22 @@
 			mc_material.animated = true;
 			
 			foot3d = new Plane(mc_material,500,1300,10,10);
-			/*foot3d.rotationX = 400;
+			foot3d.rotationX = 400;
 			foot3d.rotationY = 300;
-			foot3d.rotationZ = 45;*/
+			foot3d.rotationZ = 45;
 			
 			view.scene.addChild(foot3d);
 			addEventListener(Event.ENTER_FRAME, loop);
-			//addEventListener(MouseEvent.MOUSE_MOVE,moveFoot);
+			addEventListener(MouseEvent.MOUSE_MOVE,moveFoot);
 			create3dFoot();
 			
 			//call  coloring function
 			colorFoot([50,50,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
 		}
 		function moveFoot(e:MouseEvent=null):void {
-			foot3d.rotationZ = mouseX;
+			if(mouseX > 500 && mouseX < 800 && mouseY > 300 && mouseY < 700) {
+				foot3d.rotationZ = mouseX;
+			}
 			//foot3d.rotationY = mouseY;
 			trace(foot3d.rotationX + " X, Z " + foot3d.rotationZ);
 		}
@@ -251,6 +253,8 @@
 			for (var r:int=0;r<26;r++) {
 				for (var c:int=0;c<10;c++) {
 					dotMatrix[r][c].gotoAndStop(51-intensityMatrix[r][c]);
+					cylinderMatrix[r][c].scaleY = 10*intensityMatrix[r][c]/50;
+					cylinderMatrix[r][c].z = -10*intensityMatrix[r][c]/2;
 				}
 			}
 		}
