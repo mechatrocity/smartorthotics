@@ -14,6 +14,7 @@
 /***** MESSAGE HEADERS *****/
 /// System Values (input)
 #define 	TEST_MSG		0x00
+#define		ERROR_MTR		0xF1
 #define		SUPER_ERROR		0xFF
 
 #define		ADC_STOP		0x10
@@ -26,9 +27,12 @@
 
 
 /// Actuation Values (input)
-#define		MTR_1_CNTL		0x21
-#define		MTR_2_CNTL		0x22
-#define		MTR_3_CNTL		0x23
+#define		MTR_1_UP		0x22	//B00100010
+#define		MTR_1_DOWN		0x23	//B00100011
+#define		MTR_2_UP		0x24	//B00100100
+#define		MTR_2_DOWN		0x25	//B00100101
+#define		MTR_3_UP		0x26	//B00100110
+#define		MTR_3_DOWN		0x27	//B00100111
 
 
 /// Sensor Values (output)
@@ -52,6 +56,8 @@
 
 #define		SENSE_LRG_1		0xC1
 #define		SENSE_LRG_2		0xC2
+#define		SENSE_LRG_3		0xC3
+#define		SENSE_LRG_4		0xC4
 
 #define		SENSE_FLX_1		0xD1
 #define		SENSE_FLX_2		0xD2

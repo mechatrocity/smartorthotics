@@ -8,12 +8,12 @@ void setup(void)
 
 /// startup ADC system
 	// add slave devices to SPI bus
-	ADC1 = MCP3308_1.add_slave(30);
-	ADC2 = MCP3308_2.add_slave(50);
-	ADC3 = MCP3308_2.add_slave(51);
+	ADC1 = MCP3308_2.add_slave(50);
+	ADC2 = MCP3308_2.add_slave(51);
+	ADC3 = MCP3308_1.add_slave(30);
 
 	// blank values
-	for(i = 0; i < 12; i++)
+	for(i = 0; i < 10; i++)
 		adc_sml[i].container = 0;
 	for(i = 0; i < 4; i++)
 		adc_med[i].container = 0;
@@ -21,10 +21,6 @@ void setup(void)
 		adc_lrg[i].container = 0;
 	for(i = 0; i < 4; i++)
 		adc_flx[i].container = 0;
-
-	enable_1 = 0;
-	enable_2 = 0;
-	enable_3 = 0;
 
 	Serial0.println("ADC interface started");
 
@@ -37,16 +33,20 @@ void setup(void)
 	output1.start();
 	output2.start();
 	output3.start();
-	output4.start();
+	//output4.start();
 
-	output1.set_speed(speed[0]);
-	output2.set_speed(speed[1]);
-	output3.set_speed(speed[2]);
-	output4.set_speed(speed[3]);
+	output1.set_speed(speed[1]);
+	output2.set_speed(speed[2]);
+	output3.set_speed(speed[3]);
+	//output4.set_speed(speed[0]);
 
 	Serial0.println("Actuation interface started");
 
+
 /// other system start-up routines
+	ADC_active = false;	// off by default (wait for console)
+	MTR_active = false;	//
+
 	Serial0.println();
 	Serial0.println("Welcome to the SmartOrthotics User Console");
 }
@@ -62,100 +62,87 @@ int main(void)
 		uint8_t i = 0, j = 0;
 
 ///		ADC update
-
-		if(enable_1)
+		if(ADC_active)
 		{
-			for(i = SENSE_SML_1, j = 0; i <= SENSE_SML_8; i++, j++)
+			// problems with Sensor 1
+			adc_sml[0].container = sense_update(SENSE_SML_1);
+
+			if(adc_sml[0].container <= 400)
+				adc_sml[0].container = 0;
+
+			Serial0.write(i);
+			Serial0.write(adc_sml[j].high);
+			Serial0.write(adc_sml[j].low);
+
+			for(i = SENSE_SML_2, j = 1; i <= SENSE_SML_10; i++, j++)
 			{
 				adc_sml[j].container = sense_update(i);
 
-				Serial0.print("Small ");
-				Serial0.print(j+1, DEC);
-				Serial0.print(" =  ");
-				Serial0.println(adc_sml[j].container, DEC);
+				// Serial0.print("Small ");
+				// Serial0.print(j+1, DEC);
+				// Serial0.print(" =  ");
+				// Serial0.println(adc_sml[j].container, DEC);
 
-				//Serial0.write(i);
-				//Serial0.write(adc_sml[j].high);
-				//Serial0.write(adc_sml[j].low);
+				Serial0.write(i);
+				Serial0.write(adc_sml[j].high);
+				Serial0.write(adc_sml[j].low);
 			}
-			delay(500);
-		}
 
-		if(enable_2)
-		{
-
-			for(i = SENSE_SML_9; i <= SENSE_SML_12; i++, j++)
-			{
-				adc_sml[j].container = sense_update(i);
-
-				Serial0.print("Small ");
-				Serial0.print(j+1, DEC);
-				Serial0.print(" =  ");
-				Serial0.println(adc_sml[j].container, DEC);
-
-				//Serial0.write(i);
-				//Serial0.write(adc_sml[j].high);
-				//Serial0.write(adc_sml[j].low);
-			}
 
 			for(i = SENSE_MED_1, j = 0; i <= SENSE_MED_4; i++, j++)
 			{
 				adc_med[j].container = sense_update(i);
 
-				Serial0.print("Medium ");
-				Serial0.print(j+1, DEC);
-				Serial0.print(" =  ");
-				Serial0.println(adc_med[j].container, DEC);
+				// Serial0.print("Medium ");
+				// Serial0.print(j+1, DEC);
+				// Serial0.print(" =  ");
+				// Serial0.println(adc_med[j].container, DEC);
 
-				//Serial0.write(i);
-				//Serial0.write(adc_med[j].high);
-				//Serial0.write(adc_med[j].low);
+				Serial0.write(i);
+				Serial0.write(adc_med[j].high);
+				Serial0.write(adc_med[j].low);
 			}
-			delay(500);
-		}
 
-		if(enable_3)
-		{
 			for(i = SENSE_LRG_1, j = 0; i <= SENSE_LRG_2; i++, j++)
 			{
 				adc_lrg[j].container = sense_update(i);
 
-				Serial0.print("Large ");
-				Serial0.print(j+1, DEC);
-				Serial0.print(" =  ");
-				Serial0.println(adc_lrg[j].container, DEC);
+				// Serial0.print("Large ");
+				// Serial0.print(j+1, DEC);
+				// Serial0.print(" =  ");
+				// Serial0.println(adc_lrg[j].container, DEC);
 
-				//Serial0.write(i);
-				//Serial0.write(adc_lrg[j].high);
-				//Serial0.write(adc_lrg[j].low);
+				Serial0.write(i);
+				Serial0.write(adc_lrg[j].high);
+				Serial0.write(adc_lrg[j].low);
 			}
 
-			for(i = SENSE_FLX_1, j = 0; i <= SENSE_FLX_4; i++, j++)
+			for(i = SENSE_FLX_1, j = 0; i <= SENSE_FLX_3; i++, j++)
 			{
 				adc_flx[j].container = sense_update(i);
 
-				Serial0.print("Flex ");
-				Serial0.print(j+1, DEC);
-				Serial0.print(" =  ");
-				Serial0.println(adc_flx[j].container, DEC);
+				// Serial0.print("Flex ");
+				// Serial0.print(j+1, DEC);
+				// Serial0.print(" =  ");
+				// Serial0.println(adc_flx[j].container, DEC);
 
-				//Serial0.write(i);
-				//Serial0.write(adc_flx[j].high);
-				//Serial0.write(adc_flx[j].low);
+				Serial0.write(i);
+				Serial0.write(adc_flx[j].high);
+				Serial0.write(adc_flx[j].low);
 			}
-
-			delay(500);
-		}
-		/// END of ADC updates
+		}/// END of ADC updates
 
 
 /// 	control & actuation 'update'
-		output1.update();
-		output2.update();
-		output3.update();
+/*		if(MTR_active)
+		{
+			output1.update();
+			output2.update();
+			output3.update();
+		}
+*/
 
-
-		// check for messages
+/// 	check for messages
 		if(Serial0.available() > 0)
 		{
 			uint8_t len = 0x00, ret = 0x00;
@@ -180,7 +167,7 @@ int main(void)
 		}///END message-check
 
 
-		// maintenance?
+/// 	maintenance?
 
 	}
 	return 0;
@@ -188,28 +175,146 @@ int main(void)
 
 
 uint8_t CLI(char *input, uint8_t length)
-{	
+{
 	if(0 == length)
 	{
 		Serial0.println("CLI received 0-length message, error!");
 		return 0xFF;
 	}
-	
-	char header = input[0];
-	
+
+	char    header = input[0];
+
 	switch(header)
 	{
+/// SYSTEM
+	case ADC_STOP:
+	{
+		ADC_active = false;
+		break;
+	}
+	case ADC_START:
+	{
+		ADC_active = true;
+		break;
+	}
+	case MTR_STOP:
+	{
+		MTR_active = false;
+		break;
+	}
+	case MTR_START:
+	{
+		MTR_active = true;
+		break;
+	}
+
+	
 /// MOTOR CONTROL
+	case MTR_1_UP:
+	{
+		if(MTR_active)
+		{
+			uint8_t indata = input[1] * 16;
+
+			output1.set_speed(95);
+			delay(indata);
+			output1.set_speed(0);
+		}
+		else
+			Serial0.write(ERROR_MTR);
+
+		break;
+	}
+	case MTR_2_UP:
+	{
+		if(MTR_active)
+		{
+			uint8_t indata = input[1] * 16;
+
+			output2.set_speed(95);
+			delay(indata);
+			output2.set_speed(0);
+		}
+		else
+			Serial0.write(ERROR_MTR);
+
+		break;
+	}
+	case MTR_3_UP:
+	{
+		if(MTR_active)
+		{
+			uint8_t indata = input[1] * 16;
+
+			output3.set_speed(95);
+			delay(indata);
+			output3.set_speed(0);
+		}
+		else
+			Serial0.write(ERROR_MTR);
+
+		break;
+	}
+
+	case MTR_1_DOWN:
+	{
+		if(MTR_active)
+		{
+			uint8_t indata = input[1] * 16;
+
+			output1.set_speed(-95);
+			delay(indata);
+			output1.set_speed(0);
+		}
+		else
+			Serial0.write(ERROR_MTR);
+
+		break;
+	}
+	case MTR_2_DOWN:
+	{
+		if(MTR_active)
+		{
+			uint8_t indata = input[1] * 16;
+
+			output2.set_speed(-95);
+			delay(indata);
+			output2.set_speed(0);
+		}
+		else
+			Serial0.write(ERROR_MTR);
+
+		break;
+	}
+	case MTR_3_DOWN:
+	{
+		if(MTR_active)
+		{
+			uint8_t indata = input[1] * 16;
+
+			output3.set_speed(-95);
+			delay(indata);
+			output3.set_speed(0);
+		}
+		else
+			Serial0.write(ERROR_MTR);
+
+		break;
+	}
+
+
+/*
+/// MOTOR TESTING
 	// Motor 1
 	case '1':
 	{
-		if((speed[0] + 5) <= 100)
+		if((speed[1] + 5) <= 100)
 		{
-			speed[0] += 5;
-			output1.set_speed(speed[0]);
+			speed[1] += 5;
+			output1.set_speed(speed[1]);
 
 			Serial0.print("Motor 1 speed increased to :");
-			Serial0.println(speed[0], DEC);
+			Serial0.println(speed[1], DEC);
 		}
 		else
 			Serial0.println("Speed maxed out!");
@@ -218,13 +323,13 @@ uint8_t CLI(char *input, uint8_t length)
 	}
 	case '2':
 	{
-		if((speed[0] - 5) >= -100)
+		if((speed[1] - 5) >= -100)
 		{
-			speed[0] -= 5;
-			output1.set_speed(speed[0]);
+			speed[1] -= 5;
+			output1.set_speed(speed[1]);
 
 			Serial0.print("Motor 1 speed decreased to :");
-			Serial0.println(speed[0], DEC);
+			Serial0.println(speed[1], DEC);
 		}
 		else
 			Serial0.println("Speed maxed out!");
@@ -235,13 +340,13 @@ uint8_t CLI(char *input, uint8_t length)
 	//Motor 2
 	case 'q':
 	{
-		if((speed[1] + 5) <= 100)
+		if((speed[2] + 5) <= 100)
 		{
-			speed[1] += 5;
-			output2.set_speed(speed[1]);
+			speed[2] += 5;
+			output2.set_speed(speed[2]);
 
 			Serial0.print("Motor 2 speed increased to :");
-			Serial0.println(speed[1], DEC);
+			Serial0.println(speed[2], DEC);
 		}
 		else
 			Serial0.println("Speed maxed out!");
@@ -250,13 +355,13 @@ uint8_t CLI(char *input, uint8_t length)
 	}
 	case 'w':
 	{
-		if((speed[1] - 5) >= -100)
+		if((speed[2] - 5) >= -100)
 		{
-			speed[1] -= 5;
-			output2.set_speed(speed[1]);
+			speed[2] -= 5;
+			output2.set_speed(speed[2]);
 
 			Serial0.print("Motor 2 speed decreased to :");
-			Serial0.println(speed[1], DEC);
+			Serial0.println(speed[2], DEC);
 		}
 		else
 			Serial0.println("Speed maxed out!");
@@ -267,13 +372,13 @@ uint8_t CLI(char *input, uint8_t length)
 	//Motor 3
 	case 'a':
 	{
-		if((speed[2] + 5) <= 100)
+		if((speed[3] + 5) <= 100)
 		{
-			speed[2] += 5;
-			output3.set_speed(speed[2]);
+			speed[3] += 5;
+			output3.set_speed(speed[3]);
 
 			Serial0.print("Motor 3 speed increased to :");
-			Serial0.println(speed[2], DEC);
+			Serial0.println(speed[3], DEC);
 		}
 		else
 			Serial0.println("Speed maxed out!");
@@ -282,13 +387,13 @@ uint8_t CLI(char *input, uint8_t length)
 	}
 	case 's':
 	{
-		if((speed[2] - 5) >= -100)
+		if((speed[3] - 5) >= -100)
 		{
-			speed[2] -= 5;
-			output3.set_speed(speed[2]);
+			speed[3] -= 5;
+			output3.set_speed(speed[3]);
 
 			Serial0.print("Motor 3 speed decreased to :");
-			Serial0.println(speed[2], DEC);
+			Serial0.println(speed[3], DEC);
 		}
 		else
 			Serial0.println("Speed maxed out!");
@@ -299,13 +404,13 @@ uint8_t CLI(char *input, uint8_t length)
 	//Motor 4
 	case 'z':
 	{
-		if((speed[3] + 5) <= 100)
+		if((speed[0] + 5) <= 100)
 		{
-			speed[3] += 5;
-			output4.set_speed(speed[3]);
+			speed[0] += 5;
+			output4.set_speed(speed[0]);
 
 			Serial0.print("Motor 4 speed increased to :");
-			Serial0.println(speed[3], DEC);
+			Serial0.println(speed[0], DEC);
 		}
 		else
 			Serial0.println("Speed maxed out!");
@@ -314,13 +419,13 @@ uint8_t CLI(char *input, uint8_t length)
 	}
 	case 'x':
 	{
-		if((speed[3] - 5) >= -100)
+		if((speed[0] - 5) >= -100)
 		{
-			speed[3] -= 5;
-			output4.set_speed(speed[3]);
+			speed[0] -= 5;
+			output4.set_speed(speed[0]);
 
 			Serial0.print("Motor 4 speed decreased to :");
-			Serial0.println(speed[3], DEC);
+			Serial0.println(speed[0], DEC);
 		}
 		else
 			Serial0.println("Speed maxed out!");
@@ -328,46 +433,7 @@ uint8_t CLI(char *input, uint8_t length)
 		break;
 	}
 
-	/*** SYSTEM ***/
-	case 'I':
-	{
-		Serial0.println("ADC1 polling on");
-		enable_1 = 1;
-		break;
-	}
-	case 'i':
-	{
-		Serial0.println("ADC1 polling off");
-		enable_1 = 0;
-		break;
-	}
-
-	case 'O':
-	{
-		Serial0.println("ADC2 polling on");
-		enable_2 = 1;
-		break;
-	}
-	case 'o':
-	{
-		Serial0.println("ADC2 polling off");
-		enable_2 = 0;
-		break;
-	}
-
-	case 'P':
-	{
-		Serial0.println("ADC3 polling on");
-		enable_3 = 1;
-		break;
-	}
-	case 'p':
-	{
-		Serial0.println("ADC3 polling off");
-		enable_3 = 0;
-		break;
-	}
-
+*/
 
 	case TEST_MSG:
 	default:
@@ -379,9 +445,10 @@ uint8_t CLI(char *input, uint8_t length)
 		break;
 	}
 	}
-	
+
 	return 0xFF;
 }
+
 
 
 uint16_t sense_update(uint8_t sensor)
@@ -391,7 +458,90 @@ uint16_t sense_update(uint8_t sensor)
 
 	switch(sensor)
 	{
-	// ADC 1 (SS1)
+/// ADC 1
+	case SENSE_SML_1:
+	case SENSE_SML_3:
+	case SENSE_SML_4:
+	case SENSE_SML_5:
+	case SENSE_SML_6:
+	case SENSE_SML_8:
+	{
+		command |= ((sensor - SENSE_SML_1)<<3);
+		value = MCP3308_2.send_get(ADC1, command);
+
+		break;
+	}
+	case SENSE_MED_1:
+	{
+		command = 0b11110000; //ADC1, channel 7/8
+		value = MCP3308_2.send_get(ADC1, command);
+
+		break;
+	}
+	case SENSE_MED_2:
+	{
+		command = 0b11001000; //ADC1, channel 2/8
+		value = MCP3308_2.send_get(ADC1, command);
+
+		break;
+	}
+
+
+/// ADC 2
+	case SENSE_LRG_1:
+	case SENSE_LRG_2:
+	{
+		command |= ((sensor - SENSE_LRG_1)<<3);
+
+		value = MCP3308_2.send_get(ADC2, command);
+
+		break;
+	}
+	case SENSE_MED_3:
+	{
+		command = 0b11010000; //ADC2, channel 3/8
+		value = MCP3308_2.send_get(ADC2, command);
+
+		break;
+	}
+	case SENSE_SML_10:
+	{
+		command = 0b11011000; //ADC2, channel 4/8
+		value = MCP3308_2.send_get(ADC2, command);
+
+		break;
+	}
+	case SENSE_SML_2:
+	{
+		command = 0b11100000; //ADC2, channel 5/8
+		value = MCP3308_2.send_get(ADC2, command);
+
+		break;
+	}
+	case SENSE_MED_4:
+	{
+		command = 0b11101000; //ADC2, channel 6/8
+		value = MCP3308_2.send_get(ADC2, command);
+
+		break;
+	}
+	case SENSE_SML_7:
+	{
+		command = 0b11110000; //ADC2, channel 7/8
+		value = MCP3308_2.send_get(ADC2, command);
+
+		break;
+	}
+	case SENSE_SML_9:
+	{
+		command = 0b11111000; //ADC2, channel 8/8
+		value = MCP3308_2.send_get(ADC2, command);
+
+		break;
+	}
+
+
+/// ADC 3
 	case SENSE_FLX_1:
 	case SENSE_FLX_2:
 	case SENSE_FLX_3:
@@ -399,75 +549,19 @@ uint16_t sense_update(uint8_t sensor)
 	{
 		command |= ((sensor - SENSE_FLX_1)<<3);
 
-		value = MCP3308_1.send_get(ADC1, command);
+		value = MCP3308_1.send_get(ADC3, command);
 
 		break;
 	}
-	case SENSE_LRG_1:
-	case SENSE_LRG_2:
-	{
-		command |= ((sensor - SENSE_LRG_1 + 2)<<3);
-
-		value = MCP3308_1.send_get(ADC1, command);
-
-		break;
-	}
-
-
-	// ADC 2 (SS2)
-	case SENSE_SML_1:
-	case SENSE_SML_2:
-	case SENSE_SML_3:
-	case SENSE_SML_4:
-	case SENSE_SML_5:
-	case SENSE_SML_6:
-	case SENSE_SML_7:
-	case SENSE_SML_8:
-	{
-		//allow channel selection
-		command |= ((sensor - SENSE_SML_1)<<3);
-
-		value = MCP3308_2.send_get(ADC2, command);
-
-		break;
-	}
-	// ADC 3 (SS3)
-	case SENSE_SML_9:
-	case SENSE_SML_10:
-	case SENSE_SML_11:
-	case SENSE_SML_12:
-	{
-		//allow channel selection
-		command |= ((sensor - SENSE_SML_9)<<3);
-
-		value = MCP3308_2.send_get(ADC3, command);
-
-		break;
-	}
-	case SENSE_MED_1:
-	case SENSE_MED_2:
-	case SENSE_MED_3:
-	case SENSE_MED_4:
-	{
-		//allow channel selection
-		command |= ((sensor - SENSE_MED_1 + 4)<<3);
-
-		value = MCP3308_2.send_get(ADC3, command);
-
-		break;
-	}
-
 
 	default:
 	{
 		Serial0.println("sense_update() error!");
-		return 0x0000;
+		value = 0xFFFF;
 
 		break;
 	}
 	}
 
-
 	return value;
 }
-

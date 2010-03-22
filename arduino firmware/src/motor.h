@@ -29,11 +29,11 @@ private:
 	void calc_PWM();
 	void set_PWM();
 
-	bool    enable;				// is motor control on or off?
-	int 	percentage;			// motor-speed output (-100% to +100%)
-	uint8_t pin_SS;				// enable ("slave select") pin
-	uint8_t pin_pos, pin_neg;	// pins for (+/-) motor output
-	uint8_t pwm_pos, pwm_neg;	// PWM values for (+/-) output
+	bool    enable;			// is motor control on or off?
+	int 	percentage;		// motor-speed output (-100% to +100%)
+	uint8_t pwm_pos, pwm_neg;			// PWM values for (+/-) output
+
+	uint8_t pin_pos, pin_neg, pin_SS;	// pins for (+/-) motor output & Slave Select
 
 };
 
