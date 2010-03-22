@@ -8,10 +8,11 @@
 
 
 motor::motor(uint8_t POS, uint8_t NEG, uint8_t select)
+	  : pin_pos(POS), pin_neg(NEG), pin_SS(select)
 {
-	pin_pos = POS;
-	pin_neg = NEG;
-	pin_SS  = select;
+//	pin_pos = POS;
+//	pin_neg = NEG;
+//	pin_SS  = select;
 
 	pinMode(pin_pos, OUTPUT);   // set pins as outputs
 	pinMode(pin_neg, OUTPUT);	//
@@ -98,7 +99,7 @@ void motor::set_PWM(void)
 
 /***** DECLARE OBJECTS *****/
 motor output1(7, 9, 5);
-motor output2(10,13,5);
+//motor output2(10,13,5);
 motor output3(11,12,6);
-motor output4(2, 8, 6);		// PINS 3 & 4 DO NOT WORK ON JEFF's ARDUINO
+motor output2(2, 8, 6);		// PINS 3 & 4 DO NOT WORK ON JEFF's ARDUINO
 

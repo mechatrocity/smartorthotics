@@ -20,15 +20,16 @@ uint16_t   sense_update(uint8_t);			 /* ADC Update */
 
 
 /*** Global Variables ***/
-volatile int	   enable_1, enable_2, enable_3;
-volatile byte16	   adc_sml[12];	//ADC (input)
-volatile byte16	   adc_med[4]; 	//
-volatile byte16	   adc_lrg[2]; 	//
-volatile byte16	   adc_flx[4]; 	//
+volatile bool	   	ADC_active, MTR_active;
 
-volatile int       speed[4]  = {0};	//Motor PWM (output)
+uint8_t 			ADC1, ADC2, ADC3;	// SS pins
+volatile byte16	   	adc_sml[10];	// ADC readings
+volatile byte16	   	adc_med[4]; 	//
+volatile byte16	   	adc_lrg[2]; 	//
+volatile byte16	   	adc_flx[4]; 	//
 
-uint8_t ADC1, ADC2, ADC3;
+volatile int       	speed[4]  = {0};	//Motor PWM (output)
+
 
 
 #endif /* MAIN_H_ */
