@@ -2,7 +2,9 @@
 {
 	import flash.display.*;
 	import flash.events.*;
+	import fl.events.SliderEvent;
 	import flash.external.ExternalInterface;
+	import caurina.transitions.Tweener;
 	
 	public class smartoGUI extends MovieClip
     {
@@ -24,16 +26,28 @@
 			initializeSensorLocations();
 			
 			colorFoot([50,50,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+			//Tweener.addTween(s1,{x:100,time:1});
+			//init s1
+			s1.maximum = 200;
+			s1.minimum = 0;
+			s1.value = 100;
+			s1.snapInterval = 20;
+			s1.tickInterval = 20;
 			
 			//addEventListener(MouseEvent.MOUSE_MOVE,interactiveColor);
 			btnTest.addEventListener(MouseEvent.CLICK,showRS232);
 			
-			m1up.addEventListener(MouseEvent.CLICK,runMotor);
-			m1down.addEventListener(MouseEvent.CLICK,runMotor);
-			m2up.addEventListener(MouseEvent.CLICK,runMotor);
-			m2down.addEventListener(MouseEvent.CLICK,runMotor);
-			m3up.addEventListener(MouseEvent.CLICK,runMotor);
-			m3down.addEventListener(MouseEvent.CLICK,runMotor);
+			m1up.addEventListener(MouseEvent.CLICK,runSlider);
+			m1down.addEventListener(MouseEvent.CLICK,runSlider);
+			m2up.addEventListener(MouseEvent.CLICK,runSlider);
+			m2down.addEventListener(MouseEvent.CLICK,runSlider);
+			m3up.addEventListener(MouseEvent.CLICK,runSlider);
+			m3down.addEventListener(MouseEvent.CLICK,runSlider);
+			
+			s1.addEventListener(MouseEvent.MOUSE_DOWN,mouseDownSlider);
+			s1.addEventListener(Event.CHANGE,runMotor);
+			s1.addEventListener(SliderEvent.THUMB_DRAG,updateText);
+			
 			ExternalInterface.addCallback("vbColorFoot",colorFoot);
 		}
 		function initializeSensorLocations():void {
@@ -218,8 +232,32 @@
 				}
 			}
 		}
-		function runMotor(e:MouseEvent=null):void {
-			ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), e.target.name.substr(2)); // args: fn, motor#, up/down
+		function runSlider(e:MouseEvent=null):void {
+			//ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), e.target.name.substr(2)); // args: fn, motor#, up/down
+			//ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), e.target.value-100);
+			if(e.target.name.substr(2) == "up") {
+				Slider(getChildByName("s" + e.target.name.charAt(1))).value += 20;
+			} else {
+				Slider(getChildByName("s" + e.target.name.charAt(1))).value -= 20;
+			}
+			runMotor();
+		}
+		function mouseDownSlider(e:MouseEvent=null):void {
+			trace("mouseDowned");
+			//stage.addEventListener(MouseEvent.MOUSE_UP,resetSlider);
+		}
+		function resetSlider(e:MouseEvent=null):void {
+			trace("resetSlider");
+			//Tweener.addTween(s1,{value:100,time:1});
+		}
+		function updateText(e:Event=null):void {
+			txtSlider1.text = (s1.value-100).toString();
+		}
+		function runMotor(e:Event=null):void {
+			//ExternalInterface.call("vbRunMotor", e.target.name.charAt(1), e.target.value-100);
+			ExternalInterface.call("vbRunMotor", 1, s1.value-100);
+			trace(s1.value-100 + " sent to VB");
+			Tweener.addTween(s1,{value:100,time:1});
 		}
 		function showRS232(e:MouseEvent=null):void {
 			ExternalInterface.call("vbShowRS232"); 
@@ -234,6 +272,7 @@
 			
 			// real code
 			initializeIntensityMatrix();
+			txtDisplay.text = "";
 			for(var i:int=0; i<18; i++) {
 				txtDisplay.appendText  (i + ": " + sval[i] + "\n");
 				trace(i + " good Alhamdulillah");
