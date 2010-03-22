@@ -97,19 +97,19 @@
 			footMotor = new Plane(mc_material,500,1300,4,4);
 			footMotor.rotationX = 380;
 			footMotor.rotationY = 300;
-			footMotor.rotationZ = 45;
+			footMotor.rotationZ = 60;
 			footMotor.z = -300;
-			footMotor.y = -300;
+			footMotor.y = -450;
 			footMotor.x = -300;
-			footMotor.scale = 0.75;
-			view.scene.addChild(footMotor);
+			footMotor.scale = 0.5;
+			//view.scene.addChild(footMotor);
 			//view.scene.addChild(foot3d);
 			addEventListener(Event.ENTER_FRAME, loop);
 			//addEventListener(MouseEvent.MOUSE_MOVE,moveFoot);
 			create3dFoot();
 			
 			//call  coloring function
-			colorFoot([50,50,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]);
+			colorFoot([0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
 		}
 		function ADCHandler(e:MouseEvent):void {
 			if(ledADC.currentFrame==1) {
@@ -181,30 +181,31 @@
 			SENSOR_Y[16] = 9;
 			SENSOR_X[17] = 0;
 			SENSOR_Y[17] = 9;
+			
 			//f l e x   s e n s o r s  right
-			SENSOR_X[18] = 
-			SENSOR_Y[18] =
-			SENSOR_X[19] = 
-			SENSOR_Y[19] =
-			SENSOR_X[20] = 
-			SENSOR_Y[20] =
+			SENSOR_X[18] = 7
+			SENSOR_Y[18] =6
+			SENSOR_X[19] = 10
+			SENSOR_Y[19] =6
+			SENSOR_X[20] = 13
+			SENSOR_Y[20] =6
 			//f l e x   s e n s o r s  left
-			SENSOR_X[21] = 
-			SENSOR_Y[21] =
-			SENSOR_X[22] = 
-			SENSOR_Y[22] =
-			SENSOR_X[23] = 
-			SENSOR_Y[23] =
+			SENSOR_X[21] = 6
+			SENSOR_Y[21] = 2
+			SENSOR_X[22] = 9
+			SENSOR_Y[22] = 2
+			SENSOR_X[23] = 12
+			SENSOR_Y[23] = 1
 			//f l e x   s e n s o r s  front
-			SENSOR_X[24] = 
-			SENSOR_Y[24] =
-			SENSOR_X[25] = 
-			SENSOR_Y[25] =
-			SENSOR_X[26] = 
-			SENSOR_Y[26] =
+			SENSOR_X[24] = 20
+			SENSOR_Y[24] =1
+			SENSOR_X[25] = 20
+			SENSOR_Y[25] =4
+			SENSOR_X[26] = 20
+			SENSOR_Y[26] =7
 		}
 		function interactiveColor(e:MouseEvent=null):void {
-			initializeIntensityMatrix();
+			/*initializeIntensityMatrix();
 			addIntensities(35*(stage.stageWidth-mouseX)/stage.stageWidth,10,5);
 			addIntensities(70*(stage.stageWidth-mouseX)/stage.stageWidth,2,4); //
 			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,7,8);
@@ -213,7 +214,7 @@
 			
 			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,23,2);
 			addIntensities(30*(stage.stageWidth-mouseX)/stage.stageWidth,22,6);
-			updateIntensities();
+			updateIntensities();UA*/ 
 		}
 		function createDotMatrix():void {
 			var r:int = 0;
@@ -444,7 +445,7 @@
 			// real code
 			initializeIntensityMatrix();
 			txtDisplay.text = "";
-			for(var i:int=0; i<18; i++) {
+			for(var i:int=0; i<27; i++) {
 				txtDisplay.appendText  (i + ": " + sval[i] + "\n");
 				trace(i + " good Alhamdulillah");
 				addIntensities(sval[i],SENSOR_X[i],SENSOR_Y[i]);

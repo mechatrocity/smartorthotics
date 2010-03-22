@@ -207,7 +207,7 @@ Public Class Form1
         Me.txtBytes2Read.Name = "txtBytes2Read"
         Me.txtBytes2Read.Size = New System.Drawing.Size(65, 21)
         Me.txtBytes2Read.TabIndex = 12
-        Me.txtBytes2Read.Text = "300"
+        Me.txtBytes2Read.Text = "250"
         Me.ToolTip1.SetToolTip(Me.txtBytes2Read, "Bytes to read from COM buffer (this number effects also CommEvent)")
         '
         'chkDTR
@@ -558,6 +558,7 @@ Public Class Form1
             btnCheck.Enabled = moRS232.IsOpen
         End Try
         Me.Timer1.Enabled = True
+        btnRx.PerformClick()
     End Sub
 
     Private Sub btnCloseCom_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCloseCom.Click
@@ -600,6 +601,7 @@ Public Class Form1
     Private Sub Button1_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnRx.Click
         Try
             moRS232.Read(Int32.Parse(txtBytes2Read.Text))
+
             txtRx.Text = moRS232.InputStreamString
             txtRx.ForeColor = Color.Black
             txtRx.BackColor = Color.White
@@ -607,14 +609,14 @@ Public Class Form1
             Dim aBytes As Byte() = moRS232.InputStream
             Dim iPnt As Int32
             Dim highNibble, lowNibble As Double
-            Dim currentSensorVal, smallSensorData(12), mediumSensorData(4), largeSensorData(2) As Integer
+            Dim currentSensorVal, smallSensorData(12), mediumSensorData(4), largeSensorData(2), flexSensorData(3) As Integer
             Dim startIndex As Integer = 0
 
             Dim loop_ As Integer = 0
 
             While loop_ <> 1
-                If aBytes.Length > (54 + 115) Then
-                    If aBytes(startIndex) = &HA1 Then
+                If aBytes.Length > (56 + 115) Then
+                    If aBytes(startIndex) = &HA2 Then 'changed UA
                         loop_ = 1
                     End If
                     startIndex = startIndex + 1
@@ -623,7 +625,7 @@ Public Class Form1
             End While
 
 
-            For iPnt = startIndex - 1 To startIndex + 52 'aBytes.Length - 1
+            For iPnt = startIndex - 1 To startIndex + 54 'aBytes.Length - 1
                 lbHex.Items.Add(iPnt.ToString & ControlChars.Tab & String.Format("0x{0}", aBytes(iPnt).ToString("X")))
                 'MsgBox(aBytes(iPnt))
                 'sensorData(iPnt)
@@ -654,12 +656,20 @@ Public Class Form1
                         largeSensorData(CInt(lowNibble)) = CInt(50 * currentSensorVal / 4096)
                         'MsgBox(largeSensorData(CInt(lowNibble)))
                     End If
+                ElseIf (highNibble = &HD) Then
+                    'MsgBox(highNibble & lowNibble)
+                    If (lowNibble > 0 And lowNibble < &H4) Then
+                        currentSensorVal = Convert.ToInt32(Val("&H" & aBytes(iPnt + 1).ToString("X") & aBytes(iPnt + 2).ToString("X")))
+                        iPnt = iPnt + 2
+                        flexSensorData(CInt(lowNibble)) = CInt(50 * currentSensorVal / 4096)
+                        'MsgBox(largeSensorData(CInt(lowNibble)))
+                    End If
                 End If
             Next
 
             'have all data
             'MsgBox("clicked")
-            updateFlashFoot(smallSensorData, mediumSensorData, largeSensorData)
+            updateFlashFoot(smallSensorData, mediumSensorData, largeSensorData, flexSensorData)
 
         Catch Ex As Exception
             txtRx.BackColor = Color.Red
@@ -671,7 +681,7 @@ Public Class Form1
 
         'MsgBox("ouch")
     End Sub
-    Function updateFlashFoot(ByVal smallVals() As Integer, ByVal mediumVals() As Integer, ByVal largeVals() As Integer) As Integer
+    Function updateFlashFoot(ByVal smallVals() As Integer, ByVal mediumVals() As Integer, ByVal largeVals() As Integer, ByVal flexVals() As Integer) As Integer
         Dim XMLizedData As String
         'If (smallVals(1) > 10) Then
         ' smallVals(1) = 10
@@ -697,6 +707,15 @@ Public Class Form1
                             & "<property id=""15""><number>" & smallVals(10) & "</number></property>" _
                             & "<property id=""16""><number>" & smallVals(11) & "</number></property>" _
                             & "<property id=""17""><number>" & smallVals(12) & "</number></property>" _
+                               & "<property id=""17""><number>" & flexVals(1) / 2 & "</number></property>" _
+                             & "<property id=""17""><number>" & flexVals(1) & "</number></property>" _
+                              & "<property id=""17""><number>" & flexVals(1) / 2 & "</number></property>" _
+                               & "<property id=""17""><number>" & flexVals(2) / 2 & "</number></property>" _
+                                & "<property id=""17""><number>" & flexVals(2) & "</number></property>" _
+                                 & "<property id=""17""><number>" & flexVals(2) / 2 & "</number></property>" _
+                                  & "<property id=""17""><number>" & flexVals(3) / 2 & "</number></property>" _
+                                   & "<property id=""17""><number>" & flexVals(3) & "</number></property>" _
+                                    & "<property id=""17""><number>" & flexVals(3) / 2 & "</number></property>" _
                         & "</array>" _
                         & "</arguments></invoke>" '<string>hello</string><string>world</string>
         'MsgBox(XMLizedData)
@@ -914,6 +933,10 @@ Public Class Form1
     Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
         'MsgBox("WHAT!")
         Me.btnRx.PerformClick()
+    End Sub
+
+    Private Sub txtRx_TextChanged(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles txtRx.TextChanged
+
     End Sub
 End Class
 

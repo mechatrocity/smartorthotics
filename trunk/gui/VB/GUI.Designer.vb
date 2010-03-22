@@ -39,7 +39,7 @@ Partial Class GUI
         '
         'Button1
         '
-        Me.Button1.Location = New System.Drawing.Point(605, 606)
+        Me.Button1.Location = New System.Drawing.Point(605, 849)
         Me.Button1.Name = "Button1"
         Me.Button1.Size = New System.Drawing.Size(75, 23)
         Me.Button1.TabIndex = 1
