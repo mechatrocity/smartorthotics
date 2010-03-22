@@ -29,12 +29,32 @@
             Case "vbRunMotor"
                 'ret = cargarXml(fArgs)
                 MsgBox(fArgs(0) & " | " & fArgs(1), , funcName)
-                'next line to be kept under scrutiny: might not work
-                Form1.moRS232.Write("0x2" & fArgs(0)) ' 0x21 is motor 1, 22 is motor 2, 23 is motor 3
+                If CInt(fArgs(0)) = 1 Then               'motor 1
+                    If CInt(fArgs(1)) > 0 Then
+                        Form1.txtTx.Text = 22 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'up
+                    Else
+                        Form1.txtTx.Text = 23 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'down
+                    End If
+                ElseIf CInt(fArgs(0)) = 2 Then           'motor 2
+                    If CInt(fArgs(1)) > 0 Then
+                        Form1.txtTx.Text = 24 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'up
+                    Else
+                        Form1.txtTx.Text = 25 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'down
+                    End If
+                ElseIf CInt(fArgs(0)) = 2 Then
+                    If CInt(fArgs(1)) > 0 Then
+                        Form1.txtTx.Text = 26 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'up
+                    Else
+                        Form1.txtTx.Text = 27 & Hex(127 * (Math.Abs(CInt(fArgs(1))) / 100)) 'down
+                    End If
+                End If
+                    Form1.btnTx.PerformClick()
+                    'next line to be kept under scrutiny: might not work
+                    'Form1.moRS232.Write("0x2" & fArgs(0)) ' 0x21 is motor 1, 22 is motor 2, 23 is motor 3
             Case "vbShowRS232"
-                Form1.Show()
+                    Form1.Show()
             Case Else
-                MsgBox(funcName)
+                    MsgBox(funcName)
         End Select
 
         'MsgBox(funcName & ": " & elem.ToString())
@@ -69,5 +89,11 @@
                         & "</arguments></invoke>" '<string>hello</string><string>world</string>
         MsgBox(XMLizedData)
         Me.AxShockwaveFlash1.CallFunction(XMLizedData)
+    End Sub
+
+    Private Sub GUI_Load(ByVal sender As Object, ByVal e As System.EventArgs) Handles Me.Load
+        Form1.Show()
+        Form1.btnOpenCom.PerformClick()
+
     End Sub
 End Class

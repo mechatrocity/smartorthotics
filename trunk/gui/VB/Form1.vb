@@ -2,7 +2,6 @@ Public Class Form1
 	Inherits System.Windows.Forms.Form
 
 
-
 	'// Private members
    Private miComPort As Integer
    Friend WithEvents btnOpenCom As System.Windows.Forms.Button
@@ -28,6 +27,7 @@ Public Class Form1
 	Friend WithEvents chkDTR As System.Windows.Forms.CheckBox
 	Friend WithEvents btnExit As System.Windows.Forms.Button
     Public WithEvents moRS232 As Rs232
+    Friend WithEvents Timer1 As System.Windows.Forms.Timer
     Private mlTicks As Long
     Private Delegate Sub CommEventUpdate(ByVal source As Rs232, ByVal mask As Rs232.EventMasks)
 
@@ -116,6 +116,7 @@ Public Class Form1
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel
         Me.btnInBuffer = New System.Windows.Forms.Button
         Me.lblInBuffer = New System.Windows.Forms.Label
+        Me.Timer1 = New System.Windows.Forms.Timer(Me.components)
         Me.GroupBox1.SuspendLayout()
         Me.SuspendLayout()
         '
@@ -163,7 +164,7 @@ Public Class Form1
         '
         'chkAutorx
         '
-        Me.chkAutorx.Location = New System.Drawing.Point(8, 342)
+        Me.chkAutorx.Location = New System.Drawing.Point(4, 699)
         Me.chkAutorx.Name = "chkAutorx"
         Me.chkAutorx.Size = New System.Drawing.Size(185, 15)
         Me.chkAutorx.TabIndex = 13
@@ -186,13 +187,13 @@ Public Class Form1
         Me.txtBaudrate.Name = "txtBaudrate"
         Me.txtBaudrate.Size = New System.Drawing.Size(49, 21)
         Me.txtBaudrate.TabIndex = 5
-        Me.txtBaudrate.Text = "9600"
+        Me.txtBaudrate.Text = "115200"
         Me.ToolTip1.SetToolTip(Me.txtBaudrate, "COM Port Baudrate")
         '
         'btnRx
         '
         Me.btnRx.Enabled = False
-        Me.btnRx.Location = New System.Drawing.Point(8, 304)
+        Me.btnRx.Location = New System.Drawing.Point(4, 661)
         Me.btnRx.Name = "btnRx"
         Me.btnRx.Size = New System.Drawing.Size(58, 19)
         Me.btnRx.TabIndex = 10
@@ -202,11 +203,11 @@ Public Class Form1
         'txtBytes2Read
         '
         Me.txtBytes2Read.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.txtBytes2Read.Location = New System.Drawing.Point(245, 305)
+        Me.txtBytes2Read.Location = New System.Drawing.Point(241, 662)
         Me.txtBytes2Read.Name = "txtBytes2Read"
         Me.txtBytes2Read.Size = New System.Drawing.Size(65, 21)
         Me.txtBytes2Read.TabIndex = 12
-        Me.txtBytes2Read.Text = "2"
+        Me.txtBytes2Read.Text = "300"
         Me.ToolTip1.SetToolTip(Me.txtBytes2Read, "Bytes to read from COM buffer (this number effects also CommEvent)")
         '
         'chkDTR
@@ -226,9 +227,9 @@ Public Class Form1
         Me.lbAsync.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
         Me.lbAsync.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lbAsync.Location = New System.Drawing.Point(7, 413)
+        Me.lbAsync.Location = New System.Drawing.Point(7, 774)
         Me.lbAsync.Name = "lbAsync"
-        Me.lbAsync.Size = New System.Drawing.Size(308, 54)
+        Me.lbAsync.Size = New System.Drawing.Size(306, 54)
         Me.lbAsync.TabIndex = 25
         Me.ToolTip1.SetToolTip(Me.lbAsync, "Async method sequence")
         '
@@ -236,7 +237,7 @@ Public Class Form1
         '
         Me.chkEvents.Enabled = False
         Me.chkEvents.FlatStyle = System.Windows.Forms.FlatStyle.System
-        Me.chkEvents.Location = New System.Drawing.Point(186, 342)
+        Me.chkEvents.Location = New System.Drawing.Point(182, 699)
         Me.chkEvents.Name = "chkEvents"
         Me.chkEvents.Size = New System.Drawing.Size(124, 19)
         Me.chkEvents.TabIndex = 29
@@ -273,7 +274,7 @@ Public Class Form1
         '
         'Label5
         '
-        Me.Label5.Location = New System.Drawing.Point(240, 290)
+        Me.Label5.Location = New System.Drawing.Point(236, 647)
         Me.Label5.Name = "Label5"
         Me.Label5.Size = New System.Drawing.Size(82, 14)
         Me.Label5.TabIndex = 11
@@ -322,12 +323,10 @@ Public Class Form1
         '
         'optCom1
         '
-        Me.optCom1.Checked = True
         Me.optCom1.Location = New System.Drawing.Point(10, 18)
         Me.optCom1.Name = "optCom1"
         Me.optCom1.Size = New System.Drawing.Size(64, 26)
         Me.optCom1.TabIndex = 0
-        Me.optCom1.TabStop = True
         Me.optCom1.Text = "COM &1"
         '
         'btnCloseCom
@@ -345,7 +344,7 @@ Public Class Form1
         Me.optCom2.Name = "optCom2"
         Me.optCom2.Size = New System.Drawing.Size(66, 26)
         Me.optCom2.TabIndex = 1
-        Me.optCom2.Text = "COM &4"
+        Me.optCom2.Text = "COM &5"
         '
         'GroupBox1
         '
@@ -377,9 +376,9 @@ Public Class Form1
         '
         Me.btnExit.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.btnExit.Location = New System.Drawing.Point(251, 475)
+        Me.btnExit.Location = New System.Drawing.Point(251, 836)
         Me.btnExit.Name = "btnExit"
-        Me.btnExit.Size = New System.Drawing.Size(64, 23)
+        Me.btnExit.Size = New System.Drawing.Size(62, 23)
         Me.btnExit.TabIndex = 14
         Me.btnExit.Text = "&Close"
         '
@@ -387,9 +386,9 @@ Public Class Form1
         '
         Me.linkAuthor.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.linkAuthor.Location = New System.Drawing.Point(7, 483)
+        Me.linkAuthor.Location = New System.Drawing.Point(7, 844)
         Me.linkAuthor.Name = "linkAuthor"
-        Me.linkAuthor.Size = New System.Drawing.Size(84, 12)
+        Me.linkAuthor.Size = New System.Drawing.Size(82, 12)
         Me.linkAuthor.TabIndex = 15
         Me.linkAuthor.TabStop = True
         Me.linkAuthor.Text = "Contact Author"
@@ -399,7 +398,7 @@ Public Class Form1
         Me.lbHex.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
         Me.lbHex.Location = New System.Drawing.Point(8, 242)
         Me.lbHex.Name = "lbHex"
-        Me.lbHex.Size = New System.Drawing.Size(305, 41)
+        Me.lbHex.Size = New System.Drawing.Size(305, 392)
         Me.lbHex.TabIndex = 16
         '
         'Label6
@@ -413,7 +412,7 @@ Public Class Form1
         'cboStatusLine
         '
         Me.cboStatusLine.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
-        Me.cboStatusLine.Location = New System.Drawing.Point(83, 304)
+        Me.cboStatusLine.Location = New System.Drawing.Point(79, 661)
         Me.cboStatusLine.Name = "cboStatusLine"
         Me.cboStatusLine.Size = New System.Drawing.Size(97, 21)
         Me.cboStatusLine.Sorted = True
@@ -422,7 +421,7 @@ Public Class Form1
         'btnCheck
         '
         Me.btnCheck.Enabled = False
-        Me.btnCheck.Location = New System.Drawing.Point(185, 306)
+        Me.btnCheck.Location = New System.Drawing.Point(181, 663)
         Me.btnCheck.Name = "btnCheck"
         Me.btnCheck.Size = New System.Drawing.Size(43, 19)
         Me.btnCheck.TabIndex = 19
@@ -430,7 +429,7 @@ Public Class Form1
         '
         'Label7
         '
-        Me.Label7.Location = New System.Drawing.Point(84, 288)
+        Me.Label7.Location = New System.Drawing.Point(80, 645)
         Me.Label7.Name = "Label7"
         Me.Label7.Size = New System.Drawing.Size(82, 14)
         Me.Label7.TabIndex = 20
@@ -440,9 +439,9 @@ Public Class Form1
         '
         Me.lblAsync.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.lblAsync.Location = New System.Drawing.Point(7, 398)
+        Me.lblAsync.Location = New System.Drawing.Point(7, 759)
         Me.lblAsync.Name = "lblAsync"
-        Me.lblAsync.Size = New System.Drawing.Size(85, 14)
+        Me.lblAsync.Size = New System.Drawing.Size(83, 14)
         Me.lblAsync.TabIndex = 26
         Me.lblAsync.Text = "Async flow"
         '
@@ -450,16 +449,16 @@ Public Class Form1
         '
         Me.LinkLabel1.Anchor = CType(((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left) _
                     Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
-        Me.LinkLabel1.Location = New System.Drawing.Point(119, 483)
+        Me.LinkLabel1.Location = New System.Drawing.Point(119, 844)
         Me.LinkLabel1.Name = "LinkLabel1"
-        Me.LinkLabel1.Size = New System.Drawing.Size(102, 12)
+        Me.LinkLabel1.Size = New System.Drawing.Size(100, 12)
         Me.LinkLabel1.TabIndex = 30
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "www.codeworks.it"
         '
         'btnInBuffer
         '
-        Me.btnInBuffer.Location = New System.Drawing.Point(8, 371)
+        Me.btnInBuffer.Location = New System.Drawing.Point(4, 728)
         Me.btnInBuffer.Name = "btnInBuffer"
         Me.btnInBuffer.Size = New System.Drawing.Size(151, 23)
         Me.btnInBuffer.TabIndex = 32
@@ -469,17 +468,21 @@ Public Class Form1
         '
         Me.lblInBuffer.BackColor = System.Drawing.Color.Khaki
         Me.lblInBuffer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle
-        Me.lblInBuffer.Location = New System.Drawing.Point(170, 372)
+        Me.lblInBuffer.Location = New System.Drawing.Point(166, 729)
         Me.lblInBuffer.Name = "lblInBuffer"
         Me.lblInBuffer.Size = New System.Drawing.Size(139, 19)
         Me.lblInBuffer.TabIndex = 33
         Me.lblInBuffer.Text = "?"
         Me.lblInBuffer.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
+        'Timer1
+        '
+        Me.Timer1.Interval = 1000
+        '
         'Form1
         '
         Me.AutoScaleBaseSize = New System.Drawing.Size(5, 14)
-        Me.ClientSize = New System.Drawing.Size(322, 501)
+        Me.ClientSize = New System.Drawing.Size(320, 862)
         Me.Controls.Add(Me.lblInBuffer)
         Me.Controls.Add(Me.btnInBuffer)
         Me.Controls.Add(Me.chkAddCR)
@@ -554,6 +557,7 @@ Public Class Form1
             btnRx.Enabled = moRS232.IsOpen
             btnCheck.Enabled = moRS232.IsOpen
         End Try
+        Me.Timer1.Enabled = True
     End Sub
 
     Private Sub btnCloseCom_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCloseCom.Click
@@ -564,9 +568,11 @@ Public Class Form1
         btnTx.Enabled = moRS232.IsOpen
         btnRx.Enabled = moRS232.IsOpen
         btnCheck.Enabled = moRS232.IsOpen
+        Me.Timer1.Enabled = False
     End Sub
 
     Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTx.Click
+        MsgBox("Tx ran")
         Dim sTx As String
         '----------------------
         '// Clear Tx/Rx Buffers
@@ -599,16 +605,99 @@ Public Class Form1
             '// Fills listbox with hex values
             Dim aBytes As Byte() = moRS232.InputStream
             Dim iPnt As Int32
-            For iPnt = 0 To aBytes.Length - 1
+            Dim highNibble, lowNibble As Double
+            Dim currentSensorVal, smallSensorData(12), mediumSensorData(4), largeSensorData(2) As Integer
+            Dim startIndex As Integer = 0
+
+            Dim loop_ As Integer = 0
+
+            While loop_ <> 1
+                If aBytes.Length > (54 + 115) Then
+                    If aBytes(startIndex) = &HA1 Then
+                        loop_ = 1
+                    End If
+                    startIndex = startIndex + 1
+                End If
+
+            End While
+
+
+            For iPnt = startIndex - 1 To startIndex + 52 'aBytes.Length - 1
                 lbHex.Items.Add(iPnt.ToString & ControlChars.Tab & String.Format("0x{0}", aBytes(iPnt).ToString("X")))
+                'MsgBox(aBytes(iPnt))
+                'sensorData(iPnt)
+                highNibble = Val("&h" & aBytes(iPnt).ToString("X").Substring(0, 1))
+                lowNibble = Val("&h" & aBytes(iPnt).ToString("X").Substring(1))
+                If (highNibble = &HA) Then 'aBytes(iPnt) = &HA1
+                    'MsgBox(aBytes(iPnt).ToString("X").Substring(1))
+                    'MsgBox(highNibble & lowNibble)
+                    If (lowNibble > 0 And lowNibble < &HD) Then
+                        currentSensorVal = Convert.ToInt32(Val("&H" & aBytes(iPnt + 1).ToString("X") & aBytes(iPnt + 2).ToString("X")))
+                        iPnt = iPnt + 2
+                        smallSensorData(CInt(lowNibble)) = CInt(50 * currentSensorVal / 4096)
+                        'MsgBox(smallSensorData(CInt(lowNibble)))
+                    End If
+                ElseIf (highNibble = &HB) Then
+                    ' MsgBox(highNibble & lowNibble)
+                    If (lowNibble > 0 And lowNibble < &H5) Then
+                        currentSensorVal = Convert.ToInt32(Val("&H" & aBytes(iPnt + 1).ToString("X") & aBytes(iPnt + 2).ToString("X")))
+                        iPnt = iPnt + 2
+                        mediumSensorData(CInt(lowNibble)) = CInt(50 * currentSensorVal / 4096)
+                        'MsgBox(mediumSensorData(CInt(lowNibble)))
+                    End If
+                ElseIf (highNibble = &HC) Then
+                    'MsgBox(highNibble & lowNibble)
+                    If (lowNibble > 0 And lowNibble < &H3) Then
+                        currentSensorVal = Convert.ToInt32(Val("&H" & aBytes(iPnt + 1).ToString("X") & aBytes(iPnt + 2).ToString("X")))
+                        iPnt = iPnt + 2
+                        largeSensorData(CInt(lowNibble)) = CInt(50 * currentSensorVal / 4096)
+                        'MsgBox(largeSensorData(CInt(lowNibble)))
+                    End If
+                End If
             Next
+
+            'have all data
+            'MsgBox("clicked")
+            updateFlashFoot(smallSensorData, mediumSensorData, largeSensorData)
+
         Catch Ex As Exception
             txtRx.BackColor = Color.Red
             txtRx.ForeColor = Color.White
             txtRx.Text = "Error occurred " & Ex.Message & "  data fetched: " & moRS232.InputStreamString
         End Try
-    End Sub
 
+
+
+        'MsgBox("ouch")
+    End Sub
+    Function updateFlashFoot(ByVal smallVals() As Integer, ByVal mediumVals() As Integer, ByVal largeVals() As Integer) As Integer
+        Dim XMLizedData As String
+        XMLizedData = "<invoke name=""vbColorFoot"" returntype=""xml"">" _
+                    & "<arguments>" _
+                        & "<array>" _
+                            & "<property id=""0""><number>" & largeVals(1) & "</number></property>" _
+                            & "<property id=""1""><number>" & largeVals(2) & "</number></property>" _
+                            & "<property id=""2""><number>" & mediumVals(1) & "</number></property>" _
+                            & "<property id=""3""><number>" & mediumVals(2) & "</number></property>" _
+                            & "<property id=""4""><number>" & mediumVals(3) & "</number></property>" _
+                            & "<property id=""5""><number>" & mediumVals(4) & "</number></property>" _
+                            & "<property id=""6""><number>" & smallVals(1) & "</number></property>" _
+                            & "<property id=""7""><number>" & smallVals(2) & "</number></property>" _
+                            & "<property id=""8""><number>" & smallVals(3) & "</number></property>" _
+                            & "<property id=""9""><number>" & smallVals(4) & "</number></property>" _
+                            & "<property id=""10""><number>" & smallVals(5) & "</number></property>" _
+                            & "<property id=""11""><number>" & smallVals(6) & "</number></property>" _
+                            & "<property id=""12""><number>" & smallVals(7) & "</number></property>" _
+                            & "<property id=""13""><number>" & smallVals(8) & "</number></property>" _
+                            & "<property id=""14""><number>" & smallVals(9) & "</number></property>" _
+                            & "<property id=""15""><number>" & smallVals(10) & "</number></property>" _
+                            & "<property id=""16""><number>" & smallVals(11) & "</number></property>" _
+                            & "<property id=""17""><number>" & smallVals(12) & "</number></property>" _
+                        & "</array>" _
+                        & "</arguments></invoke>" '<string>hello</string><string>world</string>
+        'MsgBox(XMLizedData)
+        GUI.AxShockwaveFlash1.CallFunction(XMLizedData)
+    End Function
 
 
     Private Sub chkDTR_Click(ByVal sender As Object, ByVal e As System.EventArgs) Handles chkDTR.Click
@@ -633,7 +722,7 @@ Public Class Form1
         If (sender Is optCom1) Then
             miComPort = 1
         Else
-            miComPort = 4
+            miComPort = CInt(Me.optCom2.Text.Substring(4))
         End If
     End Sub
 
@@ -651,10 +740,19 @@ Public Class Form1
         '
         '	Notes				:
         '===================================================
+
+        Dim no As Integer = CInt(InputBox("Enter COM Port #", , "5").ToString)
+        optCom2.Text = "COM " & no
+        miComPort = no
+        optCom2.Checked = True
+
+        'Me.btnOpenCom.PerformClick()
+
         cboStatusLine.Items.Add("CTS")
         cboStatusLine.Items.Add("DSR")
         cboStatusLine.Items.Add("RI")
         cboStatusLine.Items.Add("CD")
+
     End Sub
 
     Private Sub btnCheck_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnCheck.Click
@@ -730,6 +828,7 @@ Public Class Form1
             Buffer = source.InputStream
             For iPnt = 0 To Buffer.Length - 1
                 lbHex.Items.Add(iPnt.ToString & ControlChars.Tab & String.Format("0x{0}", Buffer(iPnt).ToString("X")))
+                'MsgBox(Buffer(iPnt).ToString)
             Next
             lbHex.SelectedIndex = lbHex.Items.Count - 1
         End If
@@ -806,6 +905,11 @@ Public Class Form1
 
     Private Sub btnInBuffer_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnInBuffer.Click
         lblInBuffer.Text = moRS232.InBufferCount.ToString()
+    End Sub
+
+    Private Sub Timer1_Tick(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles Timer1.Tick
+        'MsgBox("WHAT!")
+        Me.btnRx.PerformClick()
     End Sub
 End Class
 
