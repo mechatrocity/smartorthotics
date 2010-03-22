@@ -477,7 +477,7 @@ Public Class Form1
         '
         'Timer1
         '
-        Me.Timer1.Interval = 1000
+        Me.Timer1.Interval = 10
         '
         'Form1
         '
@@ -572,13 +572,14 @@ Public Class Form1
     End Sub
 
     Private Sub Button1_Click_1(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles btnTx.Click
-        MsgBox("Tx ran")
+        'MsgBox("Tx ran")
         Dim sTx As String
         '----------------------
         '// Clear Tx/Rx Buffers
         moRS232.PurgeBuffer(Rs232.PurgeBuffers.TxClear Or Rs232.PurgeBuffers.RXClear)
         sTx = txtTx.Text
         If chkAddCR.Checked Then sTx += ControlChars.Cr
+
         moRS232.Write(sTx)
         'moRS232.Write(Chr(2) & Chr(2) & Chr(73) & Chr(48) & Chr(121) & Chr(3))
         '// Clears Rx textbox
@@ -672,6 +673,9 @@ Public Class Form1
     End Sub
     Function updateFlashFoot(ByVal smallVals() As Integer, ByVal mediumVals() As Integer, ByVal largeVals() As Integer) As Integer
         Dim XMLizedData As String
+        'If (smallVals(1) > 10) Then
+        ' smallVals(1) = 10
+        ' End If
         XMLizedData = "<invoke name=""vbColorFoot"" returntype=""xml"">" _
                     & "<arguments>" _
                         & "<array>" _
