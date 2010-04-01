@@ -23,9 +23,8 @@ Partial Class GUI
     <System.Diagnostics.DebuggerStepThrough()> _
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(GUI))
-        Me.AxShockwaveFlash1 = New AxShockwaveFlashObjects.AxShockwaveFlash
-        Me.Button1 = New System.Windows.Forms.Button
-        CType(Me.AxShockwaveFlash1, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.AxShockwaveFlash1 = New AxShockwaveFlashObjects.AxShockwaveFlash()
+        Me.Button1 = New System.Windows.Forms.Button()
         Me.SuspendLayout()
         '
         'AxShockwaveFlash1
@@ -50,12 +49,11 @@ Partial Class GUI
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1282, 833)
+        Me.ClientSize = New System.Drawing.Size(1282, 782)
         Me.Controls.Add(Me.Button1)
         Me.Controls.Add(Me.AxShockwaveFlash1)
         Me.Name = "GUI"
         Me.Text = "GUI"
-        CType(Me.AxShockwaveFlash1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
 
     End Sub
