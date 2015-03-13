@@ -1,0 +1,3 @@
+This is the main repository for all files related to the Smart Orthotics project. This includes firmware for both the dsPIC33FJ128MC802 and the Arduino-Mega based platforms (currently, because of problems with our PICkit3 programmer, the Arduino is the main platform), the source for the computer-based GUI, and the team's main website. Additional files such as data sheets can also be found here.
+
+For more information, please visit the teams main webpage at http://eng.uwaterloo.ca/~jgorchyn .
